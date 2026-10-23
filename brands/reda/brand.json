@@ -1,0 +1,133 @@
+{
+  "slug": "reda",
+  "name": "Reda",
+  "website": "https://reda.mx",
+  "industry": "CRM con agentes de IA (Rex IA) y WhatsApp",
+  "colors": {
+    "primary": "#80BC00",
+    "ink": "#0A0F0B",
+    "paper": "#FFFFFF",
+    "accent": "#80BC00",
+    "extra": [
+      "#009824",
+      "#37B847",
+      "#007313"
+    ],
+    "on_primary": "#0A0F0B",
+    "accent_on_paper": "#007313"
+  },
+  "fonts": {
+    "display": {
+      "family": "Onest",
+      "src": "https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=block"
+    },
+    "body": {
+      "family": "Onest",
+      "src": "https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=block"
+    }
+  },
+  "logo": {
+    "color": "assets/logo-lg-dark.png",
+    "white": "assets/logo-lg-white.png",
+    "mark": "assets/icon-only.png",
+    "dark": "assets/logo-lg-dark.png",
+    "color_small": "assets/logo-color.png"
+  },
+  "tone": {
+    "descriptor": "cercano: tuteo cálido de colega, claro y sin exagerar",
+    "examples": [
+      "¿Otra vez se te enfrió un lead? Rex te cubre.",
+      "No solo respondemos. Hacemos que el trabajo avance.",
+      "Respondemos por ti. Calificamos por ti. Ejecutamos por ti."
+    ]
+  },
+  "cta": {
+    "primary": "Agenda una demo",
+    "secondary": "",
+    "whatsapp_url": "https://wa.me/528714660108?text=Hola%20Reda%2C%20quiero%20agendar%20una%20demo%20de%20Rex%20IA.",
+    "phone": "",
+    "email": "contacto@reda.mx",
+    "web": "reda.mx"
+  },
+  "claims": {
+    "allowed": [
+      "Rex IA responde conversaciones, mueve embudos, agenda citas, registra ventas, notifica asesores, lanza automatizaciones y ejecuta webhooks (reda.mx, homeFaqs)",
+      "Atiende WhatsApp, Instagram y Messenger en un solo lugar (reda.mx)",
+      "Rex atiende cada mensaje con contexto, sin esperar a que un asesor esté disponible (reda.mx)",
+      "Consulta disponibilidad real y agenda citas sin empalmes; propone horarios, confirma asistencia y notifica al equipo (reda.mx)",
+      "Detecta intención, necesidad y prioridad antes de pasar al humano (reda.mx)",
+      "Inmobiliario: pregunta zona, presupuesto y si busca comprar o rentar; comparte propiedades disponibles y agenda una visita (reda.mx, demo inmobiliaria)",
+      "Cada prospecto tiene etapa, responsable y siguiente acción (reda.mx)",
+      "Demo de 15 minutos (reda.mx)",
+      "Rex responde 24/7, incluidos fines de semana (confirmado por Reda, 2026-10-20)",
+      "Seis meses gratis (confirmado por el usuario 2026-10-21; reemplaza 'primer mes gratis')",
+      "Reda es partner de Meta y WhatsApp (confirmado por el usuario 2026-10-21)",
+      "Centraliza prospectos, seguimiento y campañas en un solo lugar; automatiza procesos y mide resultados (confirmado por el usuario 2026-10-21)",
+      "Reda integra estudios de mercado (confirmado por el usuario 2026-10-21)",
+      "Sin letras chiquitas (aprobado por el usuario 2026-10-21 para la oferta de 6 meses gratis)"
+    ],
+    "forbidden": [
+      "resultados o cifras de clientes que no estén en allowed",
+      "promesas de ventas garantizadas",
+      "testimonios en primera persona de clientes inventados",
+      "tiempos de respuesta en segundos sin medición",
+      "integraciones con portales (Inmuebles24, Lamudi) no listadas en el sitio"
+    ],
+    "pending_confirmation": [
+      "Hasta 20% más oportunidades (copy del sitio sin fuente ni metodología)",
+      "Fraterna, Cuatro D, GIASA y más de 100 desarrolladoras usan Reda (nombrar clientes requiere su permiso)"
+    ]
+  },
+  "faces": {
+    "consent_on_file": false,
+    "people": [],
+    "real_people_allowed": false
+  },
+  "ai_label": false,
+  "notes": "Onest has no local woff2 in reda-landing (it loads from Google Fonts: https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap); the launch video uses Inter. Logo candidates copied from migration-reda/reda-launch-video/assets; logo-white.svg/logo-black.svg in other repos belong to another company, do not use. logo.white = white wordmark for dark backgrounds, logo.dark = dark wordmark for light backgrounds (checked visually).",
+  "status": "ready",
+  "palette_candidates": [
+    {
+      "source": "reda-landing (src/styles.css, theme block)",
+      "font": "Onest",
+      "primary": "#009824",
+      "ink": "#0A0F0B",
+      "note": "converted from oklch(59% .19 145) and oklch(16% .01 150)"
+    },
+    {
+      "source": "reda.mx",
+      "primary": "#6BBD4D",
+      "ink": "#06120F",
+      "paper": "#F4FAEF",
+      "accent": "#BAF29A"
+    },
+    {
+      "source": "reda-launch-video",
+      "primary": "#80BC00",
+      "secondary": "#3F7A00",
+      "ink": "#0A0A10",
+      "extra": [
+        "#5E17EB",
+        "#37E6D6"
+      ],
+      "font": "Inter"
+    }
+  ],
+  "decided": {
+    "date": "2026-10-20",
+    "palette": "reda-landing (Onest + verdes oklch)",
+    "tone": "cercano",
+    "claims": "real client figures pending from user; until then demonstration only",
+    "logo_color": "2026-10-20: logo oficial lima #80BC00; lima en botones y acentos del video (texto oscuro sobre lima)"
+  },
+  "cta_card": {
+    "background": "paper"
+  },
+  "ai_disclosure": "Sin leyenda dentro del video (decisión del usuario 2026-10-20). Al publicar con persona/voz generada por IA, activar la etiqueta de IA de la plataforma (Meta: 'Información de IA'; TikTok: 'Contenido generado por IA').",
+  "characters": {
+    "rex": {
+      "image": "assets/rex_head.png",
+      "role": "agente IA Rex: avatar 3D para burbujas de chat"
+    }
+  }
+}

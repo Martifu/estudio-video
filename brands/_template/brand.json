@@ -1,0 +1,72 @@
+{
+  "slug": "brand-slug",
+  "name": "Brand Name",
+  "website": "https://example.com",
+  "industry": "what the brand sells, in one line",
+  "colors": {
+    "primary": "#000000",
+    "ink": "#111111",
+    "paper": "#FFFFFF",
+    "accent": "#FFCC00",
+    "extra": [],
+    "on_primary": null,
+    "accent_on_paper": null
+  },
+  "fonts": {
+    "display": {
+      "family": "Inter",
+      "src": "assets/fonts/Inter.woff2"
+    },
+    "body": {
+      "family": "Inter",
+      "src": "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=block"
+    }
+  },
+  "logo": {
+    "color": "assets/logo-color.png",
+    "white": "assets/logo-white.png",
+    "mark": "assets/icon-only.png"
+  },
+  "tone": {
+    "descriptor": "e.g. cercano, directo, sin jerga",
+    "examples": [
+      "example line 1",
+      "example line 2"
+    ]
+  },
+  "cta": {
+    "primary": "Agenda una demo",
+    "secondary": "",
+    "whatsapp_url": "https://wa.me/52XXXXXXXXXX?text=Hola",
+    "phone": "",
+    "email": "",
+    "web": ""
+  },
+  "claims": {
+    "allowed": [],
+    "forbidden": []
+  },
+  "faces": {
+    "real_people_allowed": false,
+    "consent_on_file": false,
+    "people": [
+      {
+        "name": "",
+        "role": "",
+        "identity_media_ids": [],
+        "voice_ref_media_id": null,
+        "consent": "",
+        "pronunciation": "",
+        "voice_clone": null,
+        "default_for_type3": false
+      }
+    ]
+  },
+  "ai_label": true,
+  "cta_card": {
+    "background": "ink"
+  },
+  "characters": {},
+  "ai_disclosure": "",
+  "notes": "Paths in logo/fonts.src are relative to the brand dir (and, once copied to a run, relative to the run dir: copy assets/ with it). fonts.src may be a local woff2 or a Google Fonts CSS URL. When copying to <run>/brand.json, colors must be filled."
+}

@@ -1,0 +1,503 @@
+{
+ "get_project_media": {
+  "projectId": 717,
+  "projectName": "IVORIA",
+  "cover": {
+   "kind": "image",
+   "url": "https://reda.mx/recursos/landingproyectos/1/717/imagenes/img-bloque.png",
+   "originalUrl": null,
+   "mimeType": "image/png",
+   "filename": "img-bloque.png"
+  },
+  "logo": null,
+  "amenitiesImage": null,
+  "gallery": [
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria1.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria1.png",
+    "mimeType": "image/png",
+    "filename": "galeria1.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria2.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria2.png",
+    "mimeType": "image/png",
+    "filename": "galeria2.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria3.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria3.png",
+    "mimeType": "image/png",
+    "filename": "galeria3.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria4.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria4.png",
+    "mimeType": "image/png",
+    "filename": "galeria4.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria5.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria5.png",
+    "mimeType": "image/png",
+    "filename": "galeria5.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria6.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/717/galeria/galeria6.png",
+    "mimeType": "image/png",
+    "filename": "galeria6.md.png"
+   }
+  ],
+  "brochure": {
+   "kind": "document",
+   "url": "https://reda.mx/recursos/proyectos-empresa/1/717/brochure/brochure.pdf",
+   "originalUrl": null,
+   "mimeType": "application/pdf",
+   "filename": "brochure.pdf"
+  },
+  "models": [
+   {
+    "modelId": 1500,
+    "name": "B",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/717/1500/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [],
+    "brochure": null
+   },
+   {
+    "modelId": 1501,
+    "name": "A",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/717/1501/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [],
+    "brochure": null
+   },
+   {
+    "modelId": 1502,
+    "name": "C",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/717/1502/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [],
+    "brochure": null
+   }
+  ],
+  "amenities": [
+   {
+    "id": 677,
+    "name": "Alberca",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/1.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "1.png"
+    },
+    "image": null
+   },
+   {
+    "id": 678,
+    "name": "Terraza",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/3.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "3.png"
+    },
+    "image": null
+   },
+   {
+    "id": 679,
+    "name": "Gimnasio",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/8.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "8.png"
+    },
+    "image": null
+   },
+   {
+    "id": 680,
+    "name": "Cowork",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/49.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "49.png"
+    },
+    "image": null
+   },
+   {
+    "id": 681,
+    "name": "Cafetería",
+    "icon": null,
+    "image": null
+   },
+   {
+    "id": 682,
+    "name": "Skybar",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/47.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "47.png"
+    },
+    "image": null
+   }
+  ],
+  "equipment": [],
+  "remarketing": [
+   {
+    "contentId": 3200,
+    "title": "¡Unidades aún disponibles en IVORIA!",
+    "description": "¡Departamentos de inversión, para hacer crecer tu patrimonio!, Ubicados en Viñedos",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3200",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3200/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3199,
+    "title": "La mejor inversión de tu vida está en Ivoria Departamentos",
+    "description": "Enfocado en pool de Rentas, desde $1.66 MDP",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3199",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3199/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3166,
+    "title": "Invierte en tu patrimonio y en la mejor ubicación",
+    "description": "Ivoria, la mejor opción para invertir",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3166",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3166/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3165,
+    "title": "Tú primera inversión está en viñedos",
+    "description": "Departamentos enfocados en pool de rentas para hacer crecer tu patrimonio",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3165",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3165/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3086,
+    "title": "Tu primera inversión en ivoria",
+    "description": "¡La mejor decisión es tu primera inversión!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3086",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3086/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3084,
+    "title": "Ivoria Inversión",
+    "description": "La mejor inversión + Pool de rentas",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3084",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3084/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3072,
+    "title": "Optimiza tu inversión en rentas de estancia corta",
+    "description": "Descubre estrategias probadas para maximizar tus ingresos en inversiones de rentas. ¡No dejes pasar la oportunidad de hacer crecer tu patrimonio! 📊💡",
+    "type": "PDF",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3072",
+    "media": [
+     {
+      "kind": "document",
+      "url": "https://reda.mx/recursos/promos/1/3072/promocion.pdf",
+      "originalUrl": null,
+      "mimeType": "application/pdf",
+      "filename": "promocion.pdf"
+     }
+    ]
+   },
+   {
+    "contentId": 3070,
+    "title": "Imagen Proyectos Inversión",
+    "description": "Conoce los proyectos de Cuatro D ideales para inversión.",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3070",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3070/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3062,
+    "title": "Ivoria Inversiones",
+    "description": "¡T u primera inversión está en viñedos!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3062",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3062/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3061,
+    "title": "Invierte en Ivoria Departamentos",
+    "description": "Ivoria Inversión + Pool de Rentas",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3061",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3061/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3033,
+    "title": "Ivoria Departamentos",
+    "description": "Ivoria, un nuevo desarrollo ideal para inversionistas, enfocado en pool de rentas",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3033",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3033/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3032,
+    "title": "Ivoria Departamentos",
+    "description": "El nuevo desarrollo en viñedos ideal para inversionistas",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3032",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3032/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3031,
+    "title": "Oportunidad de inversión",
+    "description": "Una nueva oportunidad de inversión en Viñedos",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3031",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3031/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3025,
+    "title": "Una gran inversión",
+    "description": "No dejes pasar esta oportunidad de hacer la mejor inversión de tu vida",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3025",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3025/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3024,
+    "title": "Invierte en el mejor proyecto de Torreón",
+    "description": "El mejor lugar para invertir en la mejor ubicación de torreón",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3024",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3024/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3023,
+    "title": "Imagen pool de rentas",
+    "description": "Invierte de manera inteligente desde $1.42 MDP",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3023",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3023/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3003,
+    "title": "Pool de rentas",
+    "description": "¿Como funciona un pool de rentas?",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3003",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3003/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 2996,
+    "title": "Disponibilidad y esquemas",
+    "description": "Disponibilidad y esquemas de inversión para el público en general.",
+    "type": "PDF",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2996",
+    "media": [
+     {
+      "kind": "document",
+      "url": "https://reda.mx/recursos/promos/1/2996/promocion.pdf",
+      "originalUrl": null,
+      "mimeType": "application/pdf",
+      "filename": "promocion.pdf"
+     }
+    ]
+   },
+   {
+    "contentId": 2995,
+    "title": "Unidades de Negocio | Capital Semilla",
+    "description": "Oportunidades de inversión temprana.",
+    "type": "PDF",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2995",
+    "media": [
+     {
+      "kind": "document",
+      "url": "https://reda.mx/recursos/promos/1/2995/promocion.pdf",
+      "originalUrl": null,
+      "mimeType": "application/pdf",
+      "filename": "promocion.pdf"
+     }
+    ]
+   }
+  ],
+  "catalog": [],
+  "asOf": "2026-10-22T17:50:03.002257+00:00"
+ }
+}

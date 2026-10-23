@@ -1,0 +1,11 @@
+{
+  "name": "estudio-video-engine",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "puppeteer-core": "^24.0.0"
+  },
+  "imports": {
+    "#motion-lib/*": "./motion-lib/*"
+  }
+}

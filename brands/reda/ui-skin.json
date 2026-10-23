@@ -1,0 +1,26 @@
+{
+  "font": { "family": "Cabin", "src": "https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=block" },
+  "colors": {
+    "primary": "#7DBD4D",
+    "accent": "#5E17EB",
+    "highlight": "#B6F23C",
+    "ink": "#1A1A1A",
+    "text": "#1F2937",
+    "muted": "#6B7280",
+    "faint": "#9CA3AF",
+    "line": "#E5E7EB",
+    "panel": "#F8F9FB",
+    "surface": "#FFFFFF",
+    "success": "#7DBD4D",
+    "danger": "#D9534F",
+    "header": "#13246B"
+  },
+  "radius": { "card": 44, "row": 28, "pill": 12 },
+  "status": {
+    "Disponible": "#6B7280",
+    "Separados": "#01A0C6",
+    "Formalizados": "#FFC300",
+    "Cerrado": "#0B0146",
+    "Cancelado": "#D9534F"
+  }
+}

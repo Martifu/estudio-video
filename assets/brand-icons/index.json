@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "note": "Official platform logos, drawn as-is (no recolor, no re-trace, keep aspect). Default: NO plate/background card. 'plate' is only a fallback the engine uses with plate:'auto' when the logo would not read on the footage behind it (contrast < 3:1 against the sampled region): first try 'alt' (official alternate color variant), then a white rounded card. TikTok pending.",
+  "icons": {
+    "whatsapp": {
+      "svg": "whatsapp.svg",
+      "png": "whatsapp.png",
+      "label": "WhatsApp",
+      "shape": "circle",
+      "plate": "none",
+      "color": "#25D366"
+    },
+    "facebook": {
+      "svg": "facebook.svg",
+      "png": "facebook.png",
+      "label": "Facebook",
+      "shape": "circle",
+      "plate": "none",
+      "color": "#0866FF"
+    },
+    "instagram": {
+      "svg": "instagram.svg",
+      "png": "instagram.png",
+      "label": "Instagram",
+      "shape": "rounded",
+      "plate": "none",
+      "color": "#E1306C"
+    },
+    "messenger": {
+      "svg": "messenger.svg",
+      "png": "messenger.png",
+      "label": "Messenger",
+      "shape": "circle",
+      "plate": "none",
+      "color": "#A033FF"
+    },
+    "youtube": {
+      "svg": "youtube.svg",
+      "png": "youtube.png",
+      "label": "YouTube",
+      "shape": "rounded",
+      "plate": "none",
+      "color": "#FF0000"
+    },
+    "x": {
+      "svg": "x.svg",
+      "png": "x.png",
+      "label": "X",
+      "shape": "square",
+      "plate": "white",
+      "color": "#000000",
+      "alt": {
+        "svg": "x-white.svg",
+        "png": "x-white.png",
+        "when": "dark"
+      }
+    },
+    "linkedin": {
+      "svg": "linkedin.svg",
+      "png": "linkedin.png",
+      "label": "LinkedIn",
+      "shape": "rounded",
+      "plate": "none",
+      "color": "#0A66C2"
+    },
+    "telegram": {
+      "svg": "telegram.svg",
+      "png": "telegram.png",
+      "label": "Telegram",
+      "shape": "circle",
+      "plate": "none",
+      "color": "#2AABEE"
+    },
+    "gmail": {
+      "svg": "gmail.svg",
+      "png": "gmail.png",
+      "label": "Gmail",
+      "shape": "square",
+      "plate": "white",
+      "color": "#EA4335"
+    },
+    "googlemaps": {
+      "svg": "googlemaps.svg",
+      "png": "googlemaps.png",
+      "label": "Google Maps",
+      "shape": "pin",
+      "plate": "white",
+      "color": "#34A853"
+    },
+    "google": {
+      "svg": "google.svg",
+      "png": "google.png",
+      "label": "Google",
+      "shape": "square",
+      "plate": "white",
+      "color": "#4285F4"
+    }
+  }
+}

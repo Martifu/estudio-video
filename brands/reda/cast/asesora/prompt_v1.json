@@ -1,0 +1,36 @@
+{
+  "critical_constraints": [
+    "FACE: adult woman, apparent age 32, oval face with soft jaw, slightly wide nose bridge, full lower lip, left eyebrow sits 1 mm higher than right, small flat mole on left cheekbone",
+    "EYES: dark brown almond eyes, normal size for her face, faint under-eye shadows, no catchlight glare, looking straight into the lens",
+    "HAIR: dark brown #2B1D15 straight hair, length just past the shoulders, center part, one side tucked behind the right ear, a few loose flyaway strands",
+    "LOOK: warm medium-tan skin #B98463 with visible pores and slight unevenness on forehead and chin, minimal everyday makeup, relaxed at-home look at night",
+    "MEDIUM: must read as an unretouched phone capture, never a render or retouched photo"
+  ],
+  "negative_prompt": "oversized eyes, doll face, porcelain or waxy skin, beauty filter, airbrushed, glowing skin, model pose, studio lighting, bokeh, film grain, glasses, earrings, necklace, visible text, logos, watermark, second person, phone visible, mirror, hands near face, 4K, 8K, ultra-detailed, masterpiece, flawless",
+  "subject": {
+    "role": "real estate agent at home on a Saturday night, off duty",
+    "expression": "calm, friendly, about to speak, slight closed-mouth smile 3/10",
+    "pose": "sitting on a sofa, torso turned 15 degrees to camera, shoulders relaxed, framed chest-up",
+    "hands": "out of frame"
+  },
+  "wardrobe": {
+    "top": "plain oatmeal #CDBFA9 crew-neck knit sweater, slightly loose fit, soft wool texture, no logos or prints",
+    "accessories": "none"
+  },
+  "scene": {
+    "location": "Mexican middle-class living room at night: grey fabric sofa, beige wall, a floor lamp out of focus behind her right shoulder, a small plant",
+    "time": "night, about 10 pm"
+  },
+  "lighting": {
+    "key": "warm table lamp 2700K from camera left, soft falloff",
+    "fill": "weak cool spill from a TV off-frame right, 5600K, very low",
+    "overall": "dim but clean exposure, natural contrast"
+  },
+  "camera": {
+    "pipeline": "iPhone front camera selfie, 26 mm equivalent, arm's length, eye level, slight handheld tilt of 2 degrees",
+    "focus": "face sharp, background naturally soft from the phone, no artificial blur"
+  },
+  "color": "natural phone processing, no grading look, true skin tones",
+  "output": { "aspect_ratio": "3:4" },
+  "absences": { "glasses": "none", "earrings": "none", "text": "none", "logos": "none", "second_person": "none", "props_in_hands": "none" }
+}

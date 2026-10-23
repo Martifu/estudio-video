@@ -1,0 +1,23 @@
+{
+  "_note": "Single place for cost estimates shown by the Estudio. All Higgsfield prices are ESTIMATES: the assistant confirms the real cost with get_cost (and ledger.py guard) before running an approved request.",
+  "higgsfield": {
+    "model": "seedance_2_5",
+    "draft_quality": "draft480",
+    "final_quality": "final1080",
+    "draft_expires_days": 7,
+    "credits": {
+      "draft480": { "5": 15, "14": 42 },
+      "final1080": { "5": 80, "14": 224 }
+    },
+    "tiers": [5, 14],
+    "label": "estimado, se confirma con get_cost"
+  },
+  "elevenlabs": {
+    "model": "eleven_v3",
+    "credits_per_char": 0.4,
+    "label": "estimado: ~0.4 créditos por carácter medido con eleven_v3",
+    "remaining": null
+  },
+  "audio_studio": { "label": "local (audio-studio), sin costo de créditos" },
+  "usd_per_credit": 0.05
+}

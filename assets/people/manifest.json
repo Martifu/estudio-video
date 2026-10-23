@@ -1,0 +1,232 @@
+[
+  {
+    "id": "p01",
+    "gender": "female",
+    "age": 28,
+    "look": "casual",
+    "tags": [
+      "smile",
+      "long-hair"
+    ],
+    "background": "warm neutral",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p02",
+    "gender": "male",
+    "age": 34,
+    "look": "casual",
+    "tags": [
+      "beard",
+      "short-hair"
+    ],
+    "background": "light grey",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p03",
+    "gender": "female",
+    "age": 42,
+    "look": "business",
+    "tags": [
+      "glasses",
+      "blazer"
+    ],
+    "background": "office blur",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p04",
+    "gender": "male",
+    "age": 45,
+    "look": "business",
+    "tags": [
+      "collared-shirt",
+      "graying"
+    ],
+    "background": "office blur",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p05",
+    "gender": "female",
+    "age": 24,
+    "look": "young",
+    "tags": [
+      "curly",
+      "bun",
+      "hoodie"
+    ],
+    "background": "soft outdoor greenery",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p06",
+    "gender": "male",
+    "age": 23,
+    "look": "young",
+    "tags": [
+      "glasses",
+      "fade",
+      "tshirt"
+    ],
+    "background": "light grey",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p07",
+    "gender": "female",
+    "age": 63,
+    "look": "older",
+    "tags": [
+      "glasses",
+      "gray-hair",
+      "senior"
+    ],
+    "background": "warm neutral",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p08",
+    "gender": "male",
+    "age": 61,
+    "look": "older",
+    "tags": [
+      "mustache",
+      "bald",
+      "senior"
+    ],
+    "background": "soft outdoor greenery",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p09",
+    "gender": "female",
+    "age": 36,
+    "look": "casual",
+    "tags": [
+      "straight-hair",
+      "tee"
+    ],
+    "background": "light grey",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p10",
+    "gender": "male",
+    "age": 29,
+    "look": "casual",
+    "tags": [
+      "cap",
+      "beard"
+    ],
+    "background": "soft outdoor greenery",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p11",
+    "gender": "female",
+    "age": 51,
+    "look": "casual",
+    "tags": [
+      "glasses",
+      "auburn",
+      "cardigan"
+    ],
+    "background": "warm neutral",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p12",
+    "gender": "male",
+    "age": 52,
+    "look": "casual",
+    "tags": [
+      "curly",
+      "smile"
+    ],
+    "background": "warm neutral",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p13",
+    "gender": "female",
+    "age": 31,
+    "look": "business",
+    "tags": [
+      "ponytail",
+      "blouse"
+    ],
+    "background": "office blur",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p14",
+    "gender": "male",
+    "age": 38,
+    "look": "business",
+    "tags": [
+      "glasses",
+      "sweater"
+    ],
+    "background": "light grey",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p15",
+    "gender": "female",
+    "age": 26,
+    "look": "casual",
+    "tags": [
+      "short-hair",
+      "freckles"
+    ],
+    "background": "soft outdoor greenery",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  },
+  {
+    "id": "p16",
+    "gender": "male",
+    "age": 41,
+    "look": "casual",
+    "tags": [
+      "bald",
+      "beard",
+      "henley"
+    ],
+    "background": "office blur",
+    "source": "codex-image-gen",
+    "fictional": true,
+    "created": "2026-10-21"
+  }
+]

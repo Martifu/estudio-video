@@ -1,0 +1,44 @@
+/* Brand-agnostic base for 9:16 compositions (1080x1920). Brand values come from CSS vars set by brand-layer.js applyBrandCss(). */
+:root {
+  --W: 1080px;
+  --H: 1920px;
+  --brand-primary: #111111;
+  --brand-ink: #111111;
+  --brand-paper: #ffffff;
+  --brand-accent: #ffcc00;
+  --brand-display: system-ui, sans-serif;
+  --brand-body: system-ui, sans-serif;
+  /* 9:16 platform UI safe zones (px): keep text out of the top and bottom bands. */
+  --safe-top: 220px;
+  --safe-bottom: 380px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  width: var(--W);
+  height: var(--H);
+  overflow: hidden;
+  background: #000;
+  color: var(--brand-paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+  position: relative;
+  width: var(--W);
+  height: var(--H);
+  overflow: hidden;
+  background: #000;
+}
+
+canvas#scene {
+  position: absolute;
+  inset: 0;
+  width: var(--W);
+  height: var(--H);
+}

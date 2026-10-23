@@ -1,0 +1,515 @@
+{
+ "list_projects": {
+  "items": [
+   {
+    "id": 10,
+    "name": "Colina D Santiago",
+    "cityId": 1,
+    "location": "Circuito Colinas De Santiago, Manzana 02 Fracc. Villas, Santa Fe, 27023 Torreón, Coah., Mexico",
+    "type": 1,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 5539322.7,
+    "maxPrice": 5585194.87,
+    "availableUnits": 8,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/10/imagenes/img-bloque.png"
+   },
+   {
+    "id": 32,
+    "name": "Hacienda D San Gabriel",
+    "cityId": 1,
+    "location": "NODO SUR, Coahuila, Mexico",
+    "type": 1,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 1717000,
+    "maxPrice": 3600000,
+    "availableUnits": 1,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/32/imagenes/img-bloque.png"
+   },
+   {
+    "id": 35,
+    "name": "LAGRAND",
+    "cityId": 1,
+    "location": "Calzada Salomón Issa Murra 103, Col Arboleda, 27018 Torreón, Coah., Mexique",
+    "type": 2,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 2460769,
+    "maxPrice": 4687830.3924,
+    "availableUnits": 32,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/35/imagenes/img-bloque.png"
+   },
+   {
+    "id": 39,
+    "name": "Creditaria G4 Torreón",
+    "cityId": 1,
+    "location": "San Pedro de las Colonias - Torreón, Rincón San Ángel, 27108 Torreón, Coah., Mexique",
+    "type": 5,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 600000,
+    "maxPrice": 700000,
+    "availableUnits": 104,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/39/imagenes/img-bloque.png"
+   },
+   {
+    "id": 57,
+    "name": "Senda D Santino",
+    "cityId": 1,
+    "location": "Los Viñedos, 27023 Torreón, Coah., Mexique",
+    "type": 1,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 1899000,
+    "maxPrice": 1899000,
+    "availableUnits": 1,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/57/imagenes/img-bloque.png"
+   }
+  ],
+  "total": 15,
+  "nextCursor": "<redacted-cursor>",
+  "asOf": "2026-10-22T17:47:59.2668843+00:00"
+ },
+ "get_project": {
+  "project": {
+   "id": 794,
+   "name": "Cuatro D - Rentals",
+   "cityId": 1,
+   "location": "San Pedro de las Colonias - Torreón, Rincón San Ángel, 27108 Torreón, Coah., México",
+   "type": 7,
+   "status": "ACTIVO",
+   "currency": "MXN",
+   "minPrice": 41109,
+   "maxPrice": 59355,
+   "availableUnits": 4,
+   "isCollaboration": false,
+   "ownerName": "Cuatro D",
+   "priceBasis": "project_catalog_range",
+   "coverUrl": "https://reda.mx/recursos/landingproyectos/1/794/imagenes/img-bloque.png"
+  },
+  "description": "Cuatro D Rentals se especializa en la gestión integral de propiedades inmobiliarias en renta, ofreciendo un servicio completo que abarca desde la publicación de inmuebles hasta la administración de contratos y la cobranza de alquileres. Nuestra cartera incluye una diversa gama de propiedades, que va desde locales comerciales y departamentos hasta casas y inmuebles industriales. Este enfoque integral permite a los propietarios delegar la administración de sus bienes, asegurando un manejo profesional y eficiente. La experiencia de Cuatro D Rentals en el sector inmobiliario garantiza una atención personalizada y soluciones adaptadas a las necesidades específicas de cada cliente, facilitando así el proceso de arrendamiento.",
+  "models": [
+   {
+    "id": 1591,
+    "name": "Bodega 30",
+    "bedrooms": 0,
+    "bathrooms": 2,
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioModelo",
+    "availableUnits": 1,
+    "imageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/modelo.png",
+    "currency": "MXN"
+   },
+   {
+    "id": 1592,
+    "name": "Bodega 34",
+    "bedrooms": 0,
+    "bathrooms": 2,
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioModelo",
+    "availableUnits": 1,
+    "imageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/modelo.png",
+    "currency": "MXN"
+   },
+   {
+    "id": 1593,
+    "name": "Bodega 5",
+    "bedrooms": 0,
+    "bathrooms": 2,
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioModelo",
+    "availableUnits": 1,
+    "imageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/modelo.png",
+    "currency": "MXN"
+   },
+   {
+    "id": 1594,
+    "name": "Bodega 8",
+    "bedrooms": 0,
+    "bathrooms": 2,
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioModelo",
+    "availableUnits": 1,
+    "imageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/modelo.png",
+    "currency": "MXN"
+   }
+  ],
+  "amenities": [],
+  "equipment": [],
+  "asOf": "2026-10-22T17:48:00.0822479+00:00"
+ },
+ "get_project_media": {
+  "projectId": 794,
+  "projectName": "Cuatro D - Rentals",
+  "cover": {
+   "kind": "image",
+   "url": "https://reda.mx/recursos/landingproyectos/1/794/imagenes/img-bloque.png",
+   "originalUrl": null,
+   "mimeType": "image/png",
+   "filename": "img-bloque.png"
+  },
+  "logo": null,
+  "amenitiesImage": null,
+  "gallery": [
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria1.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria1.png",
+    "mimeType": "image/png",
+    "filename": "galeria1.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria2.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria2.png",
+    "mimeType": "image/png",
+    "filename": "galeria2.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria3.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria3.png",
+    "mimeType": "image/png",
+    "filename": "galeria3.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria4.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria4.png",
+    "mimeType": "image/png",
+    "filename": "galeria4.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria5.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria5.png",
+    "mimeType": "image/png",
+    "filename": "galeria5.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria6.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/galeria/galeria6.png",
+    "mimeType": "image/png",
+    "filename": "galeria6.md.png"
+   }
+  ],
+  "brochure": null,
+  "models": [
+   {
+    "modelId": 1591,
+    "name": "Bodega 30",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/galeria/galeria1.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria1.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/galeria/galeria2.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria2.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/galeria/galeria3.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria3.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/galeria/galeria4.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria4.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/galeria/galeria5.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria5.md.png"
+     }
+    ],
+    "brochure": null
+   },
+   {
+    "modelId": 1592,
+    "name": "Bodega 34",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/galeria/galeria1.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria1.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/galeria/galeria2.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria2.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/galeria/galeria3.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria3.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/galeria/galeria4.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria4.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/galeria/galeria5.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria5.md.png"
+     }
+    ],
+    "brochure": null
+   },
+   {
+    "modelId": 1593,
+    "name": "Bodega 5",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/galeria/galeria1.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria1.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/galeria/galeria2.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria2.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/galeria/galeria3.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria3.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/galeria/galeria4.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria4.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/galeria/galeria5.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria5.md.png"
+     }
+    ],
+    "brochure": null
+   },
+   {
+    "modelId": 1594,
+    "name": "Bodega 8",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/galeria/galeria1.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria1.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/galeria/galeria2.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria2.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/galeria/galeria3.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria3.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/galeria/galeria4.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria4.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/galeria/galeria5.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria5.md.png"
+     }
+    ],
+    "brochure": null
+   }
+  ],
+  "amenities": [],
+  "equipment": [],
+  "remarketing": [],
+  "catalog": []
+ },
+ "list_inventory": {
+  "items": [
+   {
+    "lotId": 39103,
+    "modelId": 1591,
+    "name": "Bodega 30",
+    "modelName": "Bodega 30",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioLote",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1591/modelo.png"
+   },
+   {
+    "lotId": 39104,
+    "modelId": 1592,
+    "name": "Bodega 34",
+    "modelName": "Bodega 34",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioLote",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1592/modelo.png"
+   },
+   {
+    "lotId": 39105,
+    "modelId": 1593,
+    "name": "Bodega 5",
+    "modelName": "Bodega 5",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioLote",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1593/modelo.png"
+   },
+   {
+    "lotId": 39106,
+    "modelId": 1594,
+    "name": "Bodega 8",
+    "modelName": "Bodega 8",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 0,
+    "price": 0,
+    "priceBasis": "precioLote",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/794/1594/modelo.png"
+   }
+  ],
+  "summary": {
+   "uniqueLots": 4,
+   "variantRows": 4,
+   "byStatus": [
+    {
+     "status": "disponible",
+     "uniqueLots": 4,
+     "variantRows": 4
+    },
+    {
+     "status": "apartado",
+     "uniqueLots": 0,
+     "variantRows": 0
+    },
+    {
+     "status": "formalizado",
+     "uniqueLots": 0,
+     "variantRows": 0
+    },
+    {
+     "status": "vendido",
+     "uniqueLots": 0,
+     "variantRows": 0
+    }
+   ]
+  },
+  "effectiveStatus": "disponible",
+  "nextCursor": null,
+  "asOf": "2026-10-22T17:48:01.5286596+00:00",
+  "projectId": 794
+ }
+}

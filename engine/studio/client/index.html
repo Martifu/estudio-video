@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="studio-token" content="__TOKEN__" />
+    <title>Estudio</title>
+    <!-- "#motion-lib/..." = engine/motion-lib (the element registry); Node resolves the same specifier through engine/package.json "imports". -->
+    <script type="importmap">{"imports":{"#motion-lib/":"/engine/motion-lib/"}}</script>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23222'/%3E%3Cpath d='M12 9l12 7-12 7z' fill='%23fff'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/_studio/studio.css" />
+    <link rel="stylesheet" href="/_studio/products.css" />
+  </head>
+  <body>
+    <header id="top">
+      <div class="brand">Estudio</div>
+      <div id="where" class="muted"></div>
+      <div class="grow"></div>
+      <button id="btnUndo" class="icon" title="Deshacer (⌘Z)">↶</button>
+      <button id="btnRedo" class="icon" title="Rehacer (⇧⌘Z)">↷</button>
+      <span id="perf" class="muted mono" title="Costo medido de render(t) en la vista previa. La vista previa es aproximada: sin variaciones de SFX, ducking simplificado y sin el master de -14 LUFS; el video final puede sonar distinto."></span>
+      <span id="budget" class="chip" hidden></span>
+      <button id="btnCost" class="chip chipbtn" title="Costo de este video">Costo</button>
+      <button id="btnVariants" class="chip chipbtn" title="Variantes en un clic: varios ganchos y cierres para pruebas A/B">Variantes</button>
+      <button id="btnReview" class="rv-btn" title="Revisión de reglas de motion y calidad">Revisar</button>
+      <button id="btnSave" class="primary" title="Guardar (⌘S)">Guardar<i id="dirtyDot" hidden></i></button>
+      <button id="btnRender" class="accent" title="Renderizar el video final">Renderizar</button>
+      <div class="menu-wrap">
+        <button id="btnMore" class="icon" title="Más">⋯</button>
+        <div id="moreMenu" class="menu" hidden></div>
+      </div>
+    </header>
+    <div id="banner" hidden></div>
+    <main id="main">
+      <nav id="rail" aria-label="Herramientas"></nav>
+      <section id="panelCol"></section>
+      <section id="preview">
+        <div id="assetBanner" hidden></div>
+        <div id="stageWrap">
+          <div id="stage">
+            <iframe id="comp" title="comp" tabindex="-1"></iframe>
+            <div id="overlay"></div>
+          </div>
+        </div>
+        <div id="previewTools">
+          <button id="btnGuides" class="small on" title="Mostrar / ocultar las zonas de la plataforma">Zonas</button>
+          <button id="btnComment" class="small" title="Comentar (C)">Comentar</button>
+        </div>
+      </section>
+      <aside id="inspector"><div id="inspBody"></div></aside>
+    </main>
+    <section id="timeline">
+      <div id="tlBar">
+        <button id="btnPlay" class="icon big" title="Espacio">▶</button>
+        <span id="timeRead" class="mono">0:00.00 / 0:00.00</span>
+        <button id="btnSplit" class="small" title="Dividir el video en el cursor (S)">✂ Dividir</button>
+        <div class="grow"></div>
+        <span class="muted tiny">Zoom</span>
+        <input id="zoomSlider" type="range" min="0" max="100" step="0.5" value="0" />
+        <button id="btnFit" class="small" title="Ajustar al ancho">Ajustar</button>
+        <button id="btnHelp" class="icon" title="Atajos (?)">?</button>
+      </div>
+      <div id="tlBody">
+        <div id="tlHeadCol"><div id="tlHeads"></div></div>
+        <div id="tlScroll"><div id="tlInner"></div></div>
+      </div>
+    </section>
+    <div id="modal" hidden></div>
+    <div id="toast" hidden></div>
+    <audio id="audio" preload="auto"></audio>
+    <script type="module" src="/_studio/app.js"></script>
+  </body>
+</html>

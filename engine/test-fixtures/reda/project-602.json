@@ -1,0 +1,1123 @@
+{
+ "list_projects": {
+  "items": [
+   {
+    "id": 10,
+    "name": "Colina D Santiago",
+    "cityId": 1,
+    "location": "Circuito Colinas De Santiago, Manzana 02 Fracc. Villas, Santa Fe, 27023 Torreón, Coah., Mexico",
+    "type": 1,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 5539322.7,
+    "maxPrice": 5585194.87,
+    "availableUnits": 8,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/10/imagenes/img-bloque.png"
+   },
+   {
+    "id": 32,
+    "name": "Hacienda D San Gabriel",
+    "cityId": 1,
+    "location": "NODO SUR, Coahuila, Mexico",
+    "type": 1,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 1717000,
+    "maxPrice": 3600000,
+    "availableUnits": 1,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/32/imagenes/img-bloque.png"
+   },
+   {
+    "id": 35,
+    "name": "LAGRAND",
+    "cityId": 1,
+    "location": "Calzada Salomón Issa Murra 103, Col Arboleda, 27018 Torreón, Coah., Mexique",
+    "type": 2,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 2460769,
+    "maxPrice": 4687830.3924,
+    "availableUnits": 32,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/35/imagenes/img-bloque.png"
+   },
+   {
+    "id": 39,
+    "name": "Creditaria G4 Torreón",
+    "cityId": 1,
+    "location": "San Pedro de las Colonias - Torreón, Rincón San Ángel, 27108 Torreón, Coah., Mexique",
+    "type": 5,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 600000,
+    "maxPrice": 700000,
+    "availableUnits": 104,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/39/imagenes/img-bloque.png"
+   },
+   {
+    "id": 57,
+    "name": "Senda D Santino",
+    "cityId": 1,
+    "location": "Los Viñedos, 27023 Torreón, Coah., Mexique",
+    "type": 1,
+    "status": "ACTIVO",
+    "currency": "MXN",
+    "minPrice": 1899000,
+    "maxPrice": 1899000,
+    "availableUnits": 1,
+    "isCollaboration": false,
+    "ownerName": "Cuatro D",
+    "priceBasis": "project_catalog_range",
+    "coverUrl": "https://reda.mx/recursos/landingproyectos/1/57/imagenes/img-bloque.png"
+   }
+  ],
+  "total": 15,
+  "nextCursor": "<redacted-cursor>",
+  "asOf": "2026-10-22T17:48:42.0760104+00:00"
+ },
+ "get_project": {
+  "project": {
+   "id": 602,
+   "name": "Villa D Paracas ",
+   "cityId": 56,
+   "location": "JM27+7W, 27415 El Perú, Coahuila, Mexico",
+   "type": 1,
+   "status": "ACTIVO",
+   "currency": "MXN",
+   "minPrice": 1458329.4953,
+   "maxPrice": 1458329.4953,
+   "availableUnits": 11,
+   "isCollaboration": false,
+   "ownerName": "Cuatro D",
+   "priceBasis": "project_catalog_range",
+   "coverUrl": "https://reda.mx/recursos/landingproyectos/1/602/imagenes/img-bloque.png"
+  },
+  "description": "Villa D' Paracas es una de las cerradas que forman parte del fraccionamiento Bosque Alto. Ubicado en la zona urbana de Torreón, representa una oportunidad inigualable para las familias laguneras que desean adoptar un nuevo estilo de vida. Este desarrollo ofrece un entorno ideal que combina modernidad, comodidad y naturaleza, permitiendo disfrutar de un espacio tranquilo y seguro para el crecimiento familiar. No dejes pasar la oportunidad de transformar tu vida y la de tus seres queridos en un lugar que lo tiene todo. ¡Descubre Villa D' Paracas y comienza tu nueva aventura hoy mismo!",
+  "models": [
+   {
+    "id": 1351,
+    "name": "Chifa",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "areaM2": 57,
+    "price": 881445.6616,
+    "priceBasis": "precioModeloFinal",
+    "availableUnits": 0,
+    "imageUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/1351/modelo.png",
+    "currency": "MXN"
+   },
+   {
+    "id": 1352,
+    "name": "Rimac",
+    "bedrooms": 3,
+    "bathrooms": 1.5,
+    "areaM2": 82,
+    "price": 1184804.4953,
+    "priceBasis": "precioModeloFinal",
+    "availableUnits": 11,
+    "imageUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/modelo.png",
+    "currency": "MXN"
+   }
+  ],
+  "amenities": [
+   {
+    "id": 642,
+    "name": "Alberca",
+    "description": ""
+   },
+   {
+    "id": 643,
+    "name": "Gimnasio",
+    "description": ""
+   },
+   {
+    "id": 645,
+    "name": "Terraza",
+    "description": ""
+   },
+   {
+    "id": 647,
+    "name": "Cancha de Básquetbol",
+    "description": ""
+   },
+   {
+    "id": 648,
+    "name": "Área infantil",
+    "description": ""
+   },
+   {
+    "id": 649,
+    "name": "Cancha de futbol",
+    "description": ""
+   }
+  ],
+  "equipment": [],
+  "asOf": "2026-10-22T17:48:42.6508466+00:00"
+ },
+ "get_project_media": {
+  "projectId": 602,
+  "projectName": "Villa D Paracas",
+  "cover": {
+   "kind": "image",
+   "url": "https://reda.mx/recursos/landingproyectos/1/602/imagenes/img-bloque.png",
+   "originalUrl": null,
+   "mimeType": "image/png",
+   "filename": "img-bloque.png"
+  },
+  "logo": null,
+  "amenitiesImage": null,
+  "gallery": [
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria1.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria1.png",
+    "mimeType": "image/png",
+    "filename": "galeria1.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria2.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria2.png",
+    "mimeType": "image/png",
+    "filename": "galeria2.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria3.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria3.png",
+    "mimeType": "image/png",
+    "filename": "galeria3.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria4.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria4.png",
+    "mimeType": "image/png",
+    "filename": "galeria4.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria5.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria5.png",
+    "mimeType": "image/png",
+    "filename": "galeria5.md.png"
+   },
+   {
+    "kind": "image",
+    "url": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria6.md.png",
+    "originalUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/galeria/galeria6.png",
+    "mimeType": "image/png",
+    "filename": "galeria6.md.png"
+   }
+  ],
+  "brochure": {
+   "kind": "document",
+   "url": "https://reda.mx/recursos/proyectos-empresa/1/602/brochure/brochure.pdf",
+   "originalUrl": null,
+   "mimeType": "application/pdf",
+   "filename": "brochure.pdf"
+  },
+  "models": [
+   {
+    "modelId": 1351,
+    "name": "Chifa",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/602/1351/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [],
+    "brochure": {
+     "kind": "document",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/602/1351/brochure/brochure-modelo.pdf",
+     "originalUrl": null,
+     "mimeType": "application/pdf",
+     "filename": "brochure-modelo.pdf"
+    }
+   },
+   {
+    "modelId": 1352,
+    "name": "Rimac",
+    "image": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/modelo.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "modelo.png"
+    },
+    "gallery": [],
+    "brochure": {
+     "kind": "document",
+     "url": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/brochure/brochure-modelo.pdf",
+     "originalUrl": null,
+     "mimeType": "application/pdf",
+     "filename": "brochure-modelo.pdf"
+    }
+   }
+  ],
+  "amenities": [
+   {
+    "id": 642,
+    "name": "Alberca",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/1.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "1.png"
+    },
+    "image": null
+   },
+   {
+    "id": 643,
+    "name": "Gimnasio",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/8.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "8.png"
+    },
+    "image": null
+   },
+   {
+    "id": 645,
+    "name": "Terraza",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/3.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "3.png"
+    },
+    "image": null
+   },
+   {
+    "id": 647,
+    "name": "Cancha de Básquetbol",
+    "icon": null,
+    "image": null
+   },
+   {
+    "id": 648,
+    "name": "Área infantil",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/7.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "7.png"
+    },
+    "image": null
+   },
+   {
+    "id": 649,
+    "name": "Cancha de futbol",
+    "icon": {
+     "kind": "image",
+     "url": "https://reda.mx/recursos/iconos-amenidades/68.png",
+     "originalUrl": null,
+     "mimeType": "image/png",
+     "filename": "68.png"
+    },
+    "image": null
+   }
+  ],
+  "equipment": [],
+  "remarketing": [
+   {
+    "contentId": 3237,
+    "title": "¡Estás a un paso de tu nueva casa!",
+    "description": "¡Haz realidad ese sueño con Bosque Alto!",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3237",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3237/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3236,
+    "title": "¡Cada vez más cerca de vivir en el mejor lugar para tu familia!",
+    "description": "Realiza tu apartado y dale un mejor lugar a tu familia",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3236",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3236/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3235,
+    "title": "¡Conoce los beneficios de ser parte de CuatroD!",
+    "description": "No lo pienses más y empieza a vivir mejor",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3235",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3235/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3222,
+    "title": "¡Gracias por tu visita!",
+    "description": "Un gusto atenderte y ser parte del proceso en la elección de tu nueva casa",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3222",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3222/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3180,
+    "title": "Tu hogar también es lo que lo rodea",
+    "description": "Áreas verdes, espacios para convivir y una nueva etapa en Bosque Alto. Elige Villa D’ Paracas y habla con tu asesor para apartar tu casa.",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3180",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3180/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3178,
+    "title": "Calidad que se ve y se siente",
+    "description": "Lo viste en tu visita a Villa D’ Paracas: acabados y construcción para disfrutar tu hogar todos los días. Da el siguiente paso con tu asesor y hazla tuya.",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3178",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3178/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3177,
+    "title": "Tu casa se entrega equipada",
+    "description": "Un motivo más para decidirte por Villa D’ Paracas: cocineta con fórmica, boiler de paso y equipo hidroneumático incluidos. Habla con tu asesor y aparta tu casa.",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3177",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3177/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3176,
+    "title": "Ahora imagina tu vida aquí",
+    "description": "Ya conociste tu próxima casa en Villa D’ Paracas. Más que una casa, un estilo de vida en Bosque Alto. Da el siguiente paso y habla con tu asesor para apartar la tuya.",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3176",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3176/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3169,
+    "title": "¡Tu próxima casa en Bosque Alto!",
+    "description": "Elige una nueva forma de vivir y no simplemente una casa",
+    "type": "GALERIA",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3169",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3169/galeria1.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria1.md.png"
+     },
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3169/galeria2.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria2.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3162,
+    "title": "¿Ya estás listo para comprar tu nueva casa?",
+    "description": "Agenda tu visita para darte todos los detalles",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3162",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3162/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3161,
+    "title": "La casa de tus sueños está más cerca de lo que crees",
+    "description": "Todo lo que necesitas Bosque Alto lo tiene para ti",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3161",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3161/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3157,
+    "title": "Tenemos modelos desde $1.1 MDP",
+    "description": "¿Aún no las conoces?, Agenda tu visita en Bosque Alto y ven a conocer tu próxima casa",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3157",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3157/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3156,
+    "title": "Bosque Alto, más que un proyecto, un estilo de vida",
+    "description": "Pensado para todas las necesidades y para darte la comodidad que tu familia necesita",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3156",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3156/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3155,
+    "title": "Una nueva forma de vivir para tu familia",
+    "description": "Casas desde $1.1 MDP en Bosque Alto",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3155",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3155/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3154,
+    "title": "Mejora tu nueva vida en Bosque Alto, ¡La mejor opción para ti!",
+    "description": "Diferentes modelos, en un solo lugar para cada presupuesto",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3154",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3154/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3128,
+    "title": "Casas desde $1.1 MDP",
+    "description": "¡Aprovecha el precio especial que tenemos para ti!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3128",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3128/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3127,
+    "title": "Bosque Alto es tu mejor opción",
+    "description": "¡Tu nueva casa, ya casi esta lista!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3127",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3127/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3123,
+    "title": "Desde $1.1 MDP",
+    "description": "¡En Bosque Alto encuentras todo lo que necesitas para una mejor vida!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3123",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3123/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3110,
+    "title": "Ubicación Bosque Alto",
+    "description": "Ubicación Bosque Alto",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3110",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3110/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3109,
+    "title": "Bosque Alto cada vez más cerca",
+    "description": "Más cerca de tu sueño hecho realidad: TU NUEVA CASA",
+    "type": "GALERIA",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3109",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3109/galeria1.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "galeria1.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3090,
+    "title": "Precios Paracas",
+    "description": "Precios preventa por modelos.",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3090",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3090/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3085,
+    "title": "Casas en preventa",
+    "description": "¡Los precios de preventa, aún disponibles!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3085",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3085/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3083,
+    "title": "Modelos Bosque Alto",
+    "description": "Aprovecha los precios de preventa",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3083",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3083/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3069,
+    "title": "¡Gracias por comprar en CuatroD!",
+    "description": "¡Felicidades por tu Nuevo Hogar y gracias por confiar en CuatroD!",
+    "type": "IMAGEN",
+    "audience": "CALIENTE",
+    "shareUrl": "https://api-crm.reda.mx/promo/3069",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3069/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3067,
+    "title": "La casa de tus sueños está muy cerca",
+    "description": "¡Aun puedes aprovechar los precios de preventa que tenemos para ti!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3067",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3067/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3064,
+    "title": "Tu nueva casa en preventa",
+    "description": "¿Qué espera para estrenar nueva casa?, aprovecha la preventa",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3064",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3064/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3063,
+    "title": "Precios de preventa",
+    "description": "¡Tu nuevo hogar está en Bosque Alto!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3063",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3063/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3060,
+    "title": "Plantas en modelo Rimac",
+    "description": "Villa D' Paracas: ¡Casas en preventa desde $1.42 MDP!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3060",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3060/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3054,
+    "title": "Bloquea tu casa",
+    "description": "¡Se acaba el tiempo!, Bloquea tu casa hoy mismo",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3054",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3054/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3053,
+    "title": "Cuenta de Banco Villa D' Paracas",
+    "description": "¡Te paso la cuenta para depositar el apartado de tu nueva casa!🙌🏻",
+    "type": "IMAGEN",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3053",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3053/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3030,
+    "title": "Villa D' Paracas",
+    "description": "Aprovecha los precios de nuestra preventa exclusiva en Bosque Alto",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3030",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3030/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 3029,
+    "title": "Villa D' Itaya Modelos",
+    "description": "¡Precios de preventa para tu nueva casa!",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/3029",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/3029/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 2975,
+    "title": "Prepárate para vivir mejor",
+    "description": "Bosque Alto, un nuevo desarrollo de Cuatro D",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2975",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/2975/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 2968,
+    "title": "Equipamiento",
+    "description": "Equipamiento incluido con tu casa en Villa D' Paracas",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2968",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/2968/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 2964,
+    "title": "Lofiticación Villa D' Paracas",
+    "description": "Lofiticación y disponibilidad Villa D' Paracas",
+    "type": "PDF",
+    "audience": "TIBIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2964",
+    "media": [
+     {
+      "kind": "document",
+      "url": "https://reda.mx/recursos/promos/1/2964/promocion.pdf",
+      "originalUrl": null,
+      "mimeType": "application/pdf",
+      "filename": "promocion.pdf"
+     }
+    ]
+   },
+   {
+    "contentId": 2954,
+    "title": "Bosque Alto Amenidad",
+    "description": "Un entorno diseñado para disfrutar.",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2954",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/2954/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 2953,
+    "title": "Centro de Alto Rendimiento",
+    "description": "Tu propio club deportivo, sin salir del fraccionamiento.",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2953",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/2953/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 2952,
+    "title": "Beneficios de comprar en preventa",
+    "description": "Elige primero. Vive mejor.",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2952",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/2952/promocion.md.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   },
+   {
+    "contentId": 2937,
+    "title": "Precios por Modelo Bosque Alto",
+    "description": "Imagen de modelos disponibles en Bosque Alto, con precios.",
+    "type": "IMAGEN",
+    "audience": "FRIO",
+    "shareUrl": "https://api-crm.reda.mx/promo/2937",
+    "media": [
+     {
+      "kind": "image",
+      "url": "https://reda.mx/recursos/promos/1/2937/promocion.png",
+      "originalUrl": null,
+      "mimeType": "image/png",
+      "filename": "promocion.md.png"
+     }
+    ]
+   }
+  ],
+  "catalog": []
+ },
+ "list_inventory": {
+  "items": [
+   {
+    "lotId": 36645,
+    "modelId": 1352,
+    "name": "Lote 161",
+    "modelName": "Rimac",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 105,
+    "price": 1458329.4953,
+    "priceBasis": "precioFinal",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/modelo.png"
+   },
+   {
+    "lotId": 36647,
+    "modelId": 1352,
+    "name": "Lote 163",
+    "modelName": "Rimac",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 105,
+    "price": 1458329.4953,
+    "priceBasis": "precioFinal",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/modelo.png"
+   },
+   {
+    "lotId": 36648,
+    "modelId": 1352,
+    "name": "Lote 164",
+    "modelName": "Rimac",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 105,
+    "price": 1458329.4953,
+    "priceBasis": "precioFinal",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/modelo.png"
+   },
+   {
+    "lotId": 36652,
+    "modelId": 1352,
+    "name": "Lote 168",
+    "modelName": "Rimac",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 105,
+    "price": 1458329.4953,
+    "priceBasis": "precioFinal",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/modelo.png"
+   },
+   {
+    "lotId": 36653,
+    "modelId": 1352,
+    "name": "Lote 169",
+    "modelName": "Rimac",
+    "level": 0,
+    "status": "disponible",
+    "stage": "PREVENTA",
+    "areaM2": 105,
+    "price": 1458329.4953,
+    "priceBasis": "precioFinal",
+    "currency": "MXN",
+    "equipment": null,
+    "modelImageUrl": "https://reda.mx/recursos/proyectos-empresa/1/602/1352/modelo.png"
+   }
+  ],
+  "summary": {
+   "uniqueLots": 11,
+   "variantRows": 11,
+   "byStatus": [
+    {
+     "status": "disponible",
+     "uniqueLots": 11,
+     "variantRows": 11
+    },
+    {
+     "status": "apartado",
+     "uniqueLots": 0,
+     "variantRows": 0
+    },
+    {
+     "status": "formalizado",
+     "uniqueLots": 0,
+     "variantRows": 0
+    },
+    {
+     "status": "vendido",
+     "uniqueLots": 0,
+     "variantRows": 0
+    }
+   ]
+  },
+  "effectiveStatus": "disponible",
+  "nextCursor": "<redacted-cursor>",
+  "asOf": "2026-10-22T17:48:43.191892+00:00",
+  "projectId": 602
+ }
+}

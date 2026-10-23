@@ -1,0 +1,6 @@
+{"kinds": {
+  "pop":    {"file": "ui/pop.wav",    "gain_db": -17, "anchor": "onset"},
+  "whoosh": {"file": "ui/whoosh.wav", "gain_db": -19, "anchor": "peak"},
+  "notify": {"file": "ui/notify.wav", "gain_db": -14, "anchor": "onset"},
+  "click":  {"file": "lib/clic.wav",  "gain_db": -21, "anchor": "onset"}
+}}

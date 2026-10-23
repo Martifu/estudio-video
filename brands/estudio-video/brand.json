@@ -1,0 +1,80 @@
+{
+  "slug": "estudio-video",
+  "name": "estudio-video",
+  "status": "draft",
+  "website": "",
+  "industry": "skill interna que produce videos verticales 9:16 para vender (motion, video real editado, 100 % IA)",
+  "colors": {
+    "primary": "#80BC00",
+    "ink": "#0A0F0B",
+    "paper": "#FFFFFF",
+    "accent": "#7C3AED",
+    "extra": [
+      "#8B5CF6",
+      "#007313"
+    ],
+    "on_primary": "#0A0F0B",
+    "accent_on_paper": "#007313"
+  },
+  "fonts": {
+    "display": {
+      "family": "Onest",
+      "src": "https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=block"
+    },
+    "body": {
+      "family": "Onest",
+      "src": "https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=block"
+    },
+    "mono": {
+      "family": "Geist Mono",
+      "src": "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=block"
+    }
+  },
+  "logo": {
+    "color": "assets/logo-color.png",
+    "white": "assets/logo-white.png",
+    "dark": "assets/logo-dark.png"
+  },
+  "tone": {
+    "descriptor": "tutorial directo, punchy pero claro, sin jerga de video",
+    "examples": [
+      "Escribe /estudio-video y tu brief en un solo mensaje.",
+      "Se detiene en cada parada: tú eliges."
+    ]
+  },
+  "cta": {
+    "primary": "Pruébala: escribe /estudio-video",
+    "secondary": "",
+    "whatsapp_url": "",
+    "phone": "",
+    "email": "",
+    "web": ""
+  },
+  "claims": {
+    "allowed": [
+      "Hace videos verticales 9:16 para vender, de cualquier marca",
+      "Tiene tres tipos: motion, video real editado y 100 % IA",
+      "Motion es casi gratis; el 100 % IA usa créditos",
+      "Se activa con /estudio-video y un brief; /estudio-video plantilla entrega la plantilla",
+      "Investiga anuncios y se detiene en cada parada (hook, guion, voz, costo) para que el usuario elija y apruebe",
+      "Entrega MP4 1080x1920, portada, texto para publicar, costos y receta",
+      "Solo usa claims que la marca puede afirmar; caras reales solo con permiso; recuerda la etiqueta de IA al publicar"
+    ],
+    "forbidden": [
+      "Prometer resultados de ventas",
+      "Cifras, testimonios o garantías inventadas"
+    ]
+  },
+  "faces": {
+    "real_people_allowed": false,
+    "consent_on_file": false,
+    "people": []
+  },
+  "ai_label": false,
+  "cta_card": {
+    "background": "paper"
+  },
+  "characters": {},
+  "ai_disclosure": "platform label at publish",
+  "notes": "Draft brand for the internal tutorial of /estudio-video (2026-10-21). Light look: plain white page (paper #FFFFFF), ink #0A0F0B text, Reda green #80BC00 only for fills/large shapes/ticks (small green text uses accent_on_paper #007313), violet #7C3AED for small accents; no gradients/glows. Use logo-dark.png in the header. Wordmark is typographic (Onest 800). Paths in logo are relative to the brand dir."
+}

@@ -1,0 +1,207 @@
+{
+ "version": 1,
+ "sounds": [
+  {
+   "id": "clic",
+   "label": "Clic",
+   "file": "clic.wav",
+   "gain_db": -21,
+   "group": "Interfaz",
+   "dur": 0.044
+  },
+  {
+   "id": "tecleo",
+   "label": "Tecleo",
+   "file": "tecleo.wav",
+   "gain_db": -23,
+   "group": "Interfaz",
+   "dur": 1.6
+  },
+  {
+   "id": "burbuja",
+   "label": "Burbuja",
+   "file": "burbuja.wav",
+   "gain_db": -17,
+   "group": "Interfaz",
+   "dur": 0.123
+  },
+  {
+   "id": "pop-2",
+   "label": "Pop 2",
+   "file": "pop-2.wav",
+   "gain_db": -17,
+   "group": "Interfaz",
+   "dur": 0.15
+  },
+  {
+   "id": "interruptor",
+   "label": "Interruptor",
+   "file": "interruptor.wav",
+   "gain_db": -20,
+   "group": "Interfaz",
+   "dur": 0.137
+  },
+  {
+   "id": "ding",
+   "label": "Ding",
+   "file": "ding.wav",
+   "gain_db": -17,
+   "group": "Interfaz",
+   "dur": 0.36
+  },
+  {
+   "id": "notificacion-2",
+   "label": "Notificación 2",
+   "file": "notificacion-2.wav",
+   "gain_db": -15,
+   "group": "Interfaz",
+   "dur": 1.728
+  },
+  {
+   "id": "obturador",
+   "label": "Obturador de cámara",
+   "file": "obturador.wav",
+   "gain_db": -19,
+   "group": "Interfaz",
+   "dur": 0.275
+  },
+  {
+   "id": "swoosh-arriba",
+   "label": "Swoosh arriba",
+   "file": "swoosh-arriba.wav",
+   "gain_db": -19,
+   "group": "Movimiento",
+   "dur": 0.349
+  },
+  {
+   "id": "swoosh-abajo",
+   "label": "Swoosh abajo",
+   "file": "swoosh-abajo.wav",
+   "gain_db": -19,
+   "group": "Movimiento",
+   "dur": 0.286
+  },
+  {
+   "id": "deslizar",
+   "label": "Deslizar (swipe)",
+   "file": "deslizar.wav",
+   "gain_db": -20,
+   "group": "Movimiento",
+   "dur": 0.653
+  },
+  {
+   "id": "pasar-pagina",
+   "label": "Pasar página",
+   "file": "pasar-pagina.wav",
+   "gain_db": -20,
+   "group": "Movimiento",
+   "dur": 0.736
+  },
+  {
+   "id": "whoosh-2",
+   "label": "Whoosh 2",
+   "file": "whoosh-2.wav",
+   "gain_db": -19,
+   "group": "Movimiento",
+   "dur": 0.926
+  },
+  {
+   "id": "whoosh-grande",
+   "label": "Whoosh grande",
+   "file": "whoosh-grande.wav",
+   "gain_db": -19,
+   "group": "Movimiento",
+   "dur": 1.215
+  },
+  {
+   "id": "caja-registradora",
+   "label": "Caja registradora",
+   "file": "caja-registradora.wav",
+   "gain_db": -17,
+   "group": "Dinero y compras",
+   "dur": 0.5
+  },
+  {
+   "id": "moneda",
+   "label": "Moneda",
+   "file": "moneda.wav",
+   "gain_db": -21,
+   "group": "Dinero y compras",
+   "dur": 1.065
+  },
+  {
+   "id": "impacto",
+   "label": "Impacto",
+   "file": "impacto.wav",
+   "gain_db": -16,
+   "group": "Impactos y subidas",
+   "dur": 0.654
+  },
+  {
+   "id": "golpe-grave",
+   "label": "Golpe grave",
+   "file": "golpe-grave.wav",
+   "gain_db": -17,
+   "group": "Impactos y subidas",
+   "dur": 0.992
+  },
+  {
+   "id": "subida",
+   "label": "Subida (riser)",
+   "file": "subida.wav",
+   "gain_db": -19,
+   "group": "Impactos y subidas",
+   "dur": 1.756,
+   "anchor": "end"
+  },
+  {
+   "id": "subida-larga",
+   "label": "Subida larga",
+   "file": "subida-larga.wav",
+   "gain_db": -19,
+   "group": "Impactos y subidas",
+   "dur": 2.8,
+   "anchor": "end"
+  },
+  {
+   "id": "caida",
+   "label": "Caída",
+   "file": "caida.wav",
+   "gain_db": -19,
+   "group": "Impactos y subidas",
+   "dur": 1.945
+  },
+  {
+   "id": "chispa",
+   "label": "Chispa",
+   "file": "chispa.wav",
+   "gain_db": -19,
+   "group": "Impactos y subidas",
+   "dur": 1.6
+  },
+  {
+   "id": "glitch",
+   "label": "Glitch",
+   "file": "glitch.wav",
+   "gain_db": -19,
+   "group": "Impactos y subidas",
+   "dur": 0.71
+  },
+  {
+   "id": "exito",
+   "label": "Éxito",
+   "file": "exito.wav",
+   "gain_db": -16,
+   "group": "Alertas",
+   "dur": 0.39
+  },
+  {
+   "id": "error",
+   "label": "Error",
+   "file": "error.wav",
+   "gain_db": -15,
+   "group": "Alertas",
+   "dur": 0.255
+  }
+ ]
+}

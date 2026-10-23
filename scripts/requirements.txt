@@ -1,0 +1,16 @@
+# Skill-managed venv (scripts/setup_python.py creates it in paths.data_dir()/venv). ONE environment for every script of the skill
+# (macOS, Apple Silicon): images, audio mix, speech QA, TTS, product cutouts.
+pillow>=10.3
+requests>=2.31
+numpy>=1.26
+scipy
+librosa>=0.10
+soundfile>=0.12
+onnxruntime>=1.18
+rembg>=2.0.57
+# rembg imports these at runtime (kept explicit so a minimal install does not fail on first use)
+pooch
+scikit-image
+# speech transcription (Apple Silicon only; qa_speech.py, captions)
+mlx-whisper
+certifi
