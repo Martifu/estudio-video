@@ -145,6 +145,8 @@ Para actualizarlo: `git -C "$env:USERPROFILE\.claude\skills\estudio-video" pull`
 |---|---|
 | Higgsfield o Reda "necesita que inicies sesión" | Repite el paso 2 y luego escribe `/mcp` (Claude) o corre `codex mcp login ...` (Codex) |
 | El conector "todavía se estaba conectando" | Espera unos segundos y corre el diagnóstico otra vez |
+| Windows: la transcripción de voz se cierra o marca error de CUDA/cuDNN | Pídele al asistente que use el procesador: variable `ESTUDIO_WHISPER_DEVICE=cpu` (más lento, mismo resultado). Luego revisa los controladores de NVIDIA |
+| Windows: el diagnóstico deja un aviso amarillo de GPU aunque todo funcione | Es informativo: no puede confirmar que CUDA esté activo. Si ya corriste `setup_python.py --gpu`, ignóralo |
 | Aviso de que Reda usa un "servidor de pruebas" | Es informativo; avísale a Reda solo si tu sesión falla seguido |
 | "No encontré ffmpeg" (o Node, Chrome, Python) justo después de instalarlo | Cierra y vuelve a abrir Terminal |
 | Faltan paquetes de Python | `node engine/doctor.mjs --fix` |
