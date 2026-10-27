@@ -1,0 +1,7 @@
+# NVIDIA GPU build, opt-in: python scripts/setup_python.py --gpu (replaces the CPU onnxruntime wheel; needs an NVIDIA driver).
+# Not a marker in requirements.txt on purpose: onnxruntime-gpu and onnxruntime are mutually exclusive in one environment, and the
+# CUDA/cuDNN wheels are large. faster-whisper (CTranslate2) loads cuBLAS/cuDNN from the nvidia-* wheels below on Linux; on Windows
+# the wheels' bin/ folders may also need to be on PATH (or added with os.add_dll_directory). Not verified on Windows yet.
+onnxruntime-gpu>=1.18
+nvidia-cublas-cu12
+nvidia-cudnn-cu12

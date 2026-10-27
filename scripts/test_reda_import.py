@@ -1,5 +1,5 @@
 """Tests for scripts/reda_import.py. No network: downloads are faked, or served by a throw-away local http server.
-  "$HOME/Library/Application Support/estudio-video/venv/bin/python" -I scripts/test_reda_import.py
+  <skill venv python> -I scripts/test_reda_import.py   (<skill venv python> = python3 scripts/paths.py --python)
 """
 import copy, hashlib, http.server, io, json, os, shutil, subprocess, sys, tempfile, threading, time, unittest
 from pathlib import Path

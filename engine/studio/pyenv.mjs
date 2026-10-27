@@ -37,7 +37,7 @@ export function findPython(modules = ["PIL"], opts) {
   if (!cache.has(key)) {
     cache.set(key, (async () => {
       for (const py of pythonCandidates(opts)) {
-        const ok = await new Promise((res) => execFile(py, ["-I", "-c", `import ${modules.join(", ")}`], { timeout: 60000 }, (err) => res(!err)));
+        const ok = await new Promise((res) => execFile(py, ["-I", "-X", "utf8", "-c", `import ${modules.join(", ")}`], { timeout: 60000 }, (err) => res(!err)));
         if (ok) return py;
       }
       return null;
@@ -50,7 +50,7 @@ export const forgetPython = () => cache.clear();
 /** Run `python -I script args...`; resolves {out, stderr} or {fatal: Spanish message}. Never rejects. */
 export async function runScript(py, script, args, { timeout = 60000 } = {}) {
   return new Promise((res) => {
-    execFile(py, ["-I", script, ...args], { timeout, maxBuffer: 8 * 1024 * 1024 }, (err, stdout, stderr) => {
+    execFile(py, ["-I", "-X", "utf8", script, ...args], { timeout, maxBuffer: 8 * 1024 * 1024 }, (err, stdout, stderr) => {
       try {
         res({ out: JSON.parse(stdout), stderr: String(stderr ?? "") });
       } catch {

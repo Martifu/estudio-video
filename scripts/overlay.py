@@ -12,7 +12,8 @@ words.json ([{word,start,end}], e.g. from qa_speech.py) must be timed against th
 (engine/edl.js; written by the Estudio) cuts the clips (trim/split/reorder/transitions): then --clips is the available material, words come
 per clip (--words-by-clip name=words.json,... | <clip>.words.json next to the mp4 | --words in concatenated time) and the audio is cut with the same
 map. Without edl.json nothing changes. Output: RUN/<name>/out/<name>-final.mp4
-Also: face tracking per clip (scripts/faces.swift -> footage/<clip>/faces.json, cached), face-aware auto-placement of motion elements
+Also: face tracking per clip (macOS: scripts/faces.swift, Apple Vision; Windows/Linux: scripts/faces_yunet.py, OpenCV YuNet ->
+footage/<clip>/faces.json, cached), face-aware auto-placement of motion elements
 without x/y (engine/layout.js) -> RUN/<name>/layout-report.json, and a QA contact sheet RUN/<name>/out/qa-layout.jpg.
 """
 import argparse, json, os, re, shutil, subprocess, sys
@@ -51,19 +52,19 @@ def extract(clip, run, name, audio=True, reuse=False):
         ok = False
         if n and stamp.exists():
             try:
-                ok = json.loads(stamp.read_text()) == key
+                ok = json.loads(stamp.read_text(encoding="utf-8")) == key
             except ValueError:
                 ok = False
         elif n:
             clip_dur = float(probe(clip, "format=duration").get("format", {}).get("duration", 0) or 0)
             ok = abs(clip_dur * FPS - n) <= 1.5
             if ok:
-                stamp.write_text(json.dumps(key))
+                stamp.write_text(json.dumps(key), encoding="utf-8")
         if ok:
             print(f"footage {name}: reused ({n} frames, --reuse-footage)")
             return n, n / FPS
     faces_cache = out / "faces.json"
-    kept = faces_cache.read_text() if faces_cache.exists() else None  # survives the re-extraction (see track_faces)
+    kept = faces_cache.read_text(encoding="utf-8") if faces_cache.exists() else None  # survives the re-extraction (see track_faces)
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
     st = (probe(clip, "stream=color_space")["streams"] or [{}])[0]
@@ -74,8 +75,8 @@ def extract(clip, run, name, audio=True, reuse=False):
     sh(["ffmpeg", "-v", "error", "-y", "-i", clip, "-vf", vf, "-q:v", "2", out / "%04d.jpg"])
     n = len(list(out.glob("*.jpg")))
     if kept:
-        faces_cache.write_text(kept)
-    stamp.write_text(json.dumps(key))
+        faces_cache.write_text(kept, encoding="utf-8")
+    stamp.write_text(json.dumps(key), encoding="utf-8")
     dur = n / FPS
     if not audio:
         return n, dur
@@ -86,41 +87,59 @@ def extract(clip, run, name, audio=True, reuse=False):
     return n, dur
 
 
+def face_backend_tag():
+    """Source tag of the face tracker this OS uses: "vision" (scripts/faces.swift, macOS) or "yunet" (scripts/faces_yunet.py)."""
+    return "vision" if sys.platform == "darwin" else "yunet"
+
+
 def track_faces(clip, run, name, n):
-    """Face + upper-body boxes per clip (Apple Vision via scripts/faces.swift) -> footage/<name>/faces.json (1080x1920 canvas px).
-    Cached next to the frames, keyed by frame count + source clip (path, size, mtime). Falls back to a centered default box
-    (the layout planner uses it when `samples` is empty) with a warning when swift/Vision is unavailable or finds no face."""
+    """Face boxes per clip -> footage/<name>/faces.json (1080x1920 canvas px). macOS: Apple Vision via scripts/faces.swift (source
+    "vision", unchanged); elsewhere: OpenCV YuNet via scripts/faces_yunet.py (source "yunet", same schema).
+    Cached next to the frames, keyed by frame count + source clip (path, size, mtime) and by the backend tag, so a cache written
+    by another OS's tracker is recomputed. Falls back to a centered default box (the layout planner uses it when `samples` is
+    empty) with a warning when no backend is available or finds no face."""
     fdir = run / "footage" / name
     cache = fdir / "faces.json"
     st = clip.stat()
     key = {"n": n, "clip": str(clip), "size": st.st_size, "mtime": int(st.st_mtime)}
+    tag = face_backend_tag()
     if cache.exists():
         try:
-            c = json.loads(cache.read_text())
-            if c.get("key") == key and c.get("source") == "vision":
+            c = json.loads(cache.read_text(encoding="utf-8"))
+            if c.get("key") == key and c.get("source") == tag:
                 print(f"faces {name}: cached ({c['detected']}/{len(c['samples'])} samples)")
                 return c
         except (ValueError, KeyError):
             pass
-    src, binary = SKILL / "scripts" / "faces.swift", Path(os.environ.get("ESTUDIO_CACHE", Path.home() / ".cache" / "estudio-video")) / "faces-bin"
     data = None
-    try:
-        binary.parent.mkdir(parents=True, exist_ok=True)
-        if not binary.exists() or binary.stat().st_mtime < src.stat().st_mtime:
-            subprocess.run(["swiftc", "-O", str(src), "-o", str(binary)], check=True, capture_output=True, text=True)
-        tmp = fdir / "faces.tmp.json"
-        subprocess.run([str(binary), str(fdir), "--step", "3", "--out", str(tmp)], check=True, capture_output=True, text=True)
-        data = json.loads(tmp.read_text())
-        tmp.unlink()
-    except (OSError, subprocess.CalledProcessError, ValueError) as e:
-        detail = (getattr(e, "stderr", "") or str(e)).strip().splitlines()[-1:] or [""]
-        print(f"warning: face tracking failed for {name} ({detail[0]}); using a centered default face box")
+    if tag == "vision":
+        src, binary = SKILL / "scripts" / "faces.swift", Path(os.environ.get("ESTUDIO_CACHE", Path.home() / ".cache" / "estudio-video")) / "faces-bin"
+        try:
+            binary.parent.mkdir(parents=True, exist_ok=True)
+            if not binary.exists() or binary.stat().st_mtime < src.stat().st_mtime:
+                subprocess.run(["swiftc", "-O", str(src), "-o", str(binary)], check=True, capture_output=True, text=True)
+            tmp = fdir / "faces.tmp.json"
+            subprocess.run([str(binary), str(fdir), "--step", "3", "--out", str(tmp)], check=True, capture_output=True, text=True)
+            data = json.loads(tmp.read_text(encoding="utf-8"))
+            tmp.unlink()
+        except (OSError, subprocess.CalledProcessError, ValueError) as e:
+            detail = (getattr(e, "stderr", "") or str(e)).strip().splitlines()[-1:] or [""]
+            print(f"warning: face tracking failed for {name} ({detail[0]}); using a centered default face box")
+    else:
+        try:
+            if str(SKILL / "scripts") not in sys.path:  # overlay.py may be loaded from another script (media_prepare.py)
+                sys.path.insert(0, str(SKILL / "scripts"))
+            import faces_yunet
+            data = faces_yunet.detect(fdir, step=3)
+        except Exception as e:  # no opencv, no model and no network, unreadable frames...
+            detail = (str(e).strip().splitlines() or [type(e).__name__])[-1][:160]
+            print(f"warning: face tracking failed for {name} ({detail}); using a centered default face box")
     if data is None or not data.get("detected"):
         if data is not None:
             print(f"warning: no face detected in {name}; using a centered default face box")
         return {"source": "default", "samples": [], "detected": 0, "key": key}
-    data.update({"source": "vision", "key": key})
-    cache.write_text(json.dumps(data))
+    data.update({"source": tag, "key": key})
+    cache.write_text(json.dumps(data), encoding="utf-8")
     print(f"faces {name}: {data['detected']}/{len(data['samples'])} samples with a face")
     return data
 
@@ -148,22 +167,22 @@ def source_words(a, run, comp, clips, paths, edl_on):
         wp = Path(a.words).expanduser().resolve()
         stashed = all((run / "footage" / c["name"] / "words.json").exists() for c in clips)
         if not (wp == (comp / "words.json").resolve() and stashed):  # comp/words.json is derived output once the stash exists
-            concat = split_words(json.loads(wp.read_text()), clips)
+            concat = split_words(json.loads(wp.read_text(encoding="utf-8")), clips)
     for c in clips:
         name = c["name"]
         side = paths[name].with_name(paths[name].stem + ".words.json")
         if name in explicit:
-            byclip[name] = json.loads(explicit[name].read_text())
+            byclip[name] = json.loads(explicit[name].read_text(encoding="utf-8"))
         elif edl_on and side.exists():
-            byclip[name] = json.loads(side.read_text())
+            byclip[name] = json.loads(side.read_text(encoding="utf-8"))
         elif concat is not None:
             byclip[name] = concat[name]
         elif (run / "footage" / name / "words.json").exists():
-            byclip[name] = json.loads((run / "footage" / name / "words.json").read_text())
+            byclip[name] = json.loads((run / "footage" / name / "words.json").read_text(encoding="utf-8"))
     if not byclip:
         return None
     for c in clips:
-        (run / "footage" / c["name"] / "words.json").write_text(json.dumps(byclip.get(c["name"], []), ensure_ascii=False))
+        (run / "footage" / c["name"] / "words.json").write_text(json.dumps(byclip.get(c["name"], []), ensure_ascii=False), encoding="utf-8")
     return byclip
 
 
@@ -172,10 +191,10 @@ def edl_plan(edl_file, clips, words_by_clip):
     import tempfile
     with tempfile.TemporaryDirectory() as td:
         bin_f, wb_f = Path(td) / "bin.json", Path(td) / "wb.json"
-        bin_f.write_text(json.dumps([{"name": c["name"], "dur": c["dur"]} for c in clips]))
+        bin_f.write_text(json.dumps([{"name": c["name"], "dur": c["dur"]} for c in clips]), encoding="utf-8")
         cmd = ["node", ENGINE / "edl.js", "plan", edl_file, bin_f]
         if words_by_clip is not None:
-            wb_f.write_text(json.dumps(words_by_clip))
+            wb_f.write_text(json.dumps(words_by_clip), encoding="utf-8")
             cmd.append(wb_f)
         r = subprocess.run([str(c) for c in cmd], capture_output=True, text=True)
         if r.returncode:
@@ -267,7 +286,7 @@ def prepare_ui_skin(run, comp, motion):
         return True
     cands = [run / "ui-skin.json"]
     try:
-        cands.append(SKILL / "brands" / json.loads((run / "brand.json").read_text()).get("slug", "") / "ui-skin.json")
+        cands.append(SKILL / "brands" / json.loads((run / "brand.json").read_text(encoding="utf-8")).get("slug", "") / "ui-skin.json")
     except (OSError, ValueError):
         pass
     for c in cands:
@@ -280,7 +299,7 @@ def prepare_ui_skin(run, comp, motion):
 def prepare_motion(path, run, comp, total, reuse=False):
     """Validate motion.json, copy it into the comp dir and extract each panel clip (video only) to footage/panel-*/."""
     src = Path(path).expanduser().resolve()
-    els = json.loads(src.read_text())
+    els = json.loads(src.read_text(encoding="utf-8"))
     if not isinstance(els, list):
         sys.exit("motion.json must be a JSON list of elements")
     if src != (comp / "motion.json").resolve():  # the studio rebuilds from the comp's own motion.json
@@ -344,7 +363,7 @@ def prepare_motion(path, run, comp, total, reuse=False):
 def qa_sheet(comp):
     """RUN/<comp>/out/qa-layout.jpg: one QA frame per motion element (face box + element rects drawn), 4 per row, captioned."""
     frames = sorted((comp / "out" / "qa").glob("*.jpg"))
-    rep = json.loads((comp / "layout-report.json").read_text())["elements"]
+    rep = json.loads((comp / "layout-report.json").read_text(encoding="utf-8"))["elements"]
     rep = [e for e in rep if e["rect"]]
     if not frames:
         return
@@ -375,7 +394,7 @@ def apply_cta_doc(a, comp):
     if not f.exists():
         return None, None
     try:
-        d = json.loads(f.read_text())
+        d = json.loads(f.read_text(encoding="utf-8"))
     except ValueError:
         sys.exit(f"{f}: no es JSON válido")
     if not isinstance(d, dict):
@@ -501,13 +520,13 @@ def main():
     if (run / "products.json").exists():  # RUN-level product catalog (engine/studio/products.mjs): images for productCard / productPop / carousel
         cfg["productsFile"] = True
     if plan is not None and wbc:
-        (comp / "words.json").write_text(json.dumps(plan["words"], ensure_ascii=False))
+        (comp / "words.json").write_text(json.dumps(plan["words"], ensure_ascii=False), encoding="utf-8")
     elif a.words and Path(a.words).resolve() != (comp / "words.json").resolve():
         shutil.copyfile(a.words, comp / "words.json")
     elif wbc and not (comp / "words.json").exists():  # --words-by-clip without an edl: the clips back to back
-        (comp / "words.json").write_text(json.dumps(sorted((w for c in clips for w in ({**x, "start": round(x["start"] + c["start"], 3), "end": round(x["end"] + c["start"], 3)} for x in wbc.get(c["name"], []))), key=lambda w: w["start"]), ensure_ascii=False))
-    html = (ENGINE / "templates" / "overlay.html").read_text().replace("/*CONFIG*/ {}", json.dumps(cfg, ensure_ascii=False))
-    (comp / "index.html").write_text(html)
+        (comp / "words.json").write_text(json.dumps(sorted((w for c in clips for w in ({**x, "start": round(x["start"] + c["start"], 3), "end": round(x["end"] + c["start"], 3)} for x in wbc.get(c["name"], []))), key=lambda w: w["start"]), ensure_ascii=False), encoding="utf-8")
+    html = (ENGINE / "templates" / "overlay.html").read_text(encoding="utf-8").replace("/*CONFIG*/ {}", json.dumps(cfg, ensure_ascii=False))
+    (comp / "index.html").write_text(html, encoding="utf-8")
 
     # Audio bed: clip audios back to back (+ silence under the CTA card).
     audio_dir = comp / "audio"
@@ -566,7 +585,7 @@ def has_sfx_events(sfx_doc, events_file, mix_options=None):
     """True when sfx.json leaves at least one sound to play: an automatic event not muted by it (or an added one), unless the mix options
     switch every SFX off. Uses engine/sfx-doc.js (the one merge implementation); a broken sfx.json counts as nothing to play."""
     try:
-        if mix_options and (json.loads(Path(mix_options).read_text()).get("sfx") or {}).get("enabled") is False:
+        if mix_options and (json.loads(Path(mix_options).read_text(encoding="utf-8")).get("sfx") or {}).get("enabled") is False:
             return False
         js = ("import {mergeSfx} from __SFXDOC__; import fs from 'node:fs';"
               "const ev=JSON.parse(fs.readFileSync(process.argv[1],'utf8')).events??[];"
@@ -612,7 +631,7 @@ def write_studio_build(a, run, comp):
         args[args.index("--motion") + 1] = str(comp / "motion.json")
     d = comp / ".studio"
     d.mkdir(exist_ok=True)
-    (d / "build.json").write_text(json.dumps({"argv": ["python3", str(Path(__file__).resolve()), *args, "--reuse-footage"]}, indent=1, ensure_ascii=False))
+    (d / "build.json").write_text(json.dumps({"argv": ["python3", str(Path(__file__).resolve()), *args, "--reuse-footage"]}, indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"studio build -> {d / 'build.json'}")
 
 

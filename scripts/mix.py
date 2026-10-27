@@ -60,16 +60,16 @@ from pathlib import Path
 EARSHOT_HOME = Path(os.environ.get("EARSHOT_HOME", "~/tools/earshot")).expanduser()
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import paths  # noqa: E402
-LEGACY_PY = EARSHOT_HOME / ".venv/bin/python"  # legacy fallback; the skill venv (setup_python.py) goes first
+LEGACY_PY = paths.venv_bin(EARSHOT_HOME / ".venv", "python")  # legacy fallback; the skill venv (setup_python.py) goes first
 VENV_PYS = [paths.venv_python(), LEGACY_PY]
-EARSHOT = EARSHOT_HOME / ".venv/bin/earshot"
+EARSHOT = paths.venv_bin(EARSHOT_HOME / ".venv", "earshot")  # Scripts\earshot.exe on Windows
 try:
     import numpy as np, soundfile as sf, librosa  # noqa: E401
     from scipy.signal import resample_poly, sosfilt, butter, fftconvolve
 except ImportError:
     for cand in VENV_PYS:
         if cand.exists() and Path(sys.executable).resolve() != cand.resolve():
-            os.execv(str(cand), [str(cand), *sys.argv])
+            paths.reexec(cand, sys.argv)
     raise
 
 SR = 48000

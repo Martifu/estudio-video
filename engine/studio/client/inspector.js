@@ -359,7 +359,7 @@ function videoPanel() {
       h("span", {}, "Render"), h("b", {}, status),
       pend ? h("span", {}, "Solicitudes") : null, pend ? h("b", {}, `${pend} en cola`) : null),
     h("div", { class: "btnrow", style: { marginTop: "12px" } },
-      h("button", { class: "accent", onclick: startRender }, "Renderizar"), fin || rstate.code === 0 ? h("button", { onclick: () => api("POST", "/api/open-final", {}).catch((e) => toast(e.data?.error ?? e.message)), title: "Abre el último video final en QuickTime" }, "Ver final") : null, h("button", { onclick: selectZones }, "Zonas de la plataforma"), h("button", { onclick: selectLogo }, "Logo"), S.cta || S.ctaDoc ? h("button", { onclick: selectCta }, "Cierre") : null, pend ? h("button", { onclick: openRequests }, "Ver solicitudes") : null),
+      h("button", { class: "accent", onclick: startRender }, "Renderizar"), fin || rstate.code === 0 ? h("button", { onclick: () => api("POST", "/api/open-final", {}).catch((e) => toast(e.data?.error ?? e.message)), title: "Abre el último video final en tu reproductor" }, "Ver final") : null, h("button", { onclick: selectZones }, "Zonas de la plataforma"), h("button", { onclick: selectLogo }, "Logo"), S.cta || S.ctaDoc ? h("button", { onclick: selectCta }, "Cierre") : null, pend ? h("button", { onclick: openRequests }, "Ver solicitudes") : null),
     note("Selecciona un bloque, un subtítulo o el encabezado de una pista para ver sus ajustes. Clic derecho abre el menú; ? muestra los atajos."));
 }
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Developer tool: (re)builds the bundled sound library assets/sfx/lib/ from the local earshot bank (deterministic, no network).
 
-  ~/tools/earshot/.venv/bin/python scripts/build_sfx_lib.py [--only id,id] [--keep-tmp]
+  <earshot venv>/bin/python scripts/build_sfx_lib.py [--only id,id] [--keep-tmp]
+  (<earshot venv> = ~/tools/earshot/.venv; Scripts/python.exe on Windows)
 
 Needs earshot (only here: the built WAVs are plain files, so rendering videos and the Estudio never need earshot for them).
 Each sound = one earshot render (or a small composition of renders), onset trimmed to ~0 (5 ms of lead kept), tail trimmed at -60 dB,
@@ -15,7 +16,10 @@ import numpy as np
 import soundfile as sf
 
 SR = 48000
-EARSHOT = Path(os.environ.get("EARSHOT_HOME", "~/tools/earshot")).expanduser() / ".venv/bin/earshot"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import paths  # noqa: E402
+
+EARSHOT = paths.venv_bin(Path(os.environ.get("EARSHOT_HOME", "~/tools/earshot")).expanduser() / ".venv", "earshot")
 OUT = Path(__file__).resolve().parent.parent / "assets" / "sfx" / "lib"
 
 # id: (label, group, parts, gain_db, max_dur_s, anchor)   parts = [(earshot sound, offset_s, {render options})]

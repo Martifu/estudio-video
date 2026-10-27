@@ -3,28 +3,22 @@
 
   python3 qa_speech.py <clip.mp4|audio.wav> [--out words.json] [--script script.txt] [--lang es] [--gap 0.25]
 
-Transcribes with mlx-whisper (mlx-community/whisper-large-v3-turbo), writes words.json ([{word,start,end}]) and prints JSON:
+Transcribes with whisper_backend.py (mlx-whisper on Apple Silicon, faster-whisper elsewhere; large-v3-turbo), writes words.json
+([{word,start,end}]) and prints JSON:
 duration, speech_start, speech_end, end_gap (duration - speech_end), gaps >= --gap s, words_per_minute and, with --script,
 a word-level diff + WER (accents, punctuation and case are normalized). Re-executes itself with the skill venv (scripts/setup_python.py;
-legacy fallback: the reels-dibujados venv) when mlx_whisper is not importable.
+legacy fallback: the reels-dibujados venv) when the transcription engine is not importable.
 """
 import argparse, difflib, json, os, re, subprocess, sys, tempfile, unicodedata
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import paths  # noqa: E402
-# Interpreters with mlx_whisper, in order: QA_SPEECH_PYTHON, the skill venv (setup_python.py), the legacy reels-dibujados venv.
-LEGACY_PY = Path("~/.local/share/reels-dibujados/venv/bin/python").expanduser()
+import whisper_backend  # noqa: E402
+# Interpreters with the transcription engine, in order: QA_SPEECH_PYTHON, the skill venv (setup_python.py), the legacy reels-dibujados venv.
+LEGACY_PY = paths.venv_bin(Path("~/.local/share/reels-dibujados/venv").expanduser(), "python")
 CANDIDATES = [Path(os.environ["QA_SPEECH_PYTHON"]).expanduser()] if os.environ.get("QA_SPEECH_PYTHON") else [paths.venv_python(), LEGACY_PY]
-MODEL = "mlx-community/whisper-large-v3-turbo"
-
-try:
-    import mlx_whisper
-except ImportError:
-    for cand in CANDIDATES:
-        if cand.exists() and Path(sys.executable).resolve() != cand.resolve():
-            os.execv(str(cand), [str(cand), *sys.argv])
-    raise
+MODEL = whisper_backend.MLX_MODEL
 
 
 def norm(s):
@@ -65,20 +59,27 @@ def main():
     ap.add_argument("--lang", default="es")
     ap.add_argument("--gap", type=float, default=0.25)
     a = ap.parse_args()
+    try:
+        whisper_backend.require()
+    except ImportError:
+        for cand in CANDIDATES:
+            if cand.exists() and Path(sys.executable).resolve() != cand.resolve():
+                paths.reexec(cand, sys.argv)
+        raise
     media = Path(a.media)
     out = Path(a.out) if a.out else media.with_suffix(".words.json")
 
     with tempfile.TemporaryDirectory() as tmp:
         wav = Path(tmp) / "a.wav"
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(media), "-vn", "-ac", "1", "-ar", "16000", str(wav)], check=True)
-        res = mlx_whisper.transcribe(str(wav), path_or_hf_repo=MODEL, word_timestamps=True, language=a.lang, verbose=None)
+        res = whisper_backend.transcribe(wav, a.lang, MODEL)
     words = []
     for seg in res.get("segments", []):
         for w in seg.get("words", []):
             words.append({"word": w["word"].strip(), "start": round(float(w["start"]), 3), "end": round(float(w["end"]), 3)})
     words = [w for w in words if w["word"]]
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(words, ensure_ascii=False, indent=1))
+    out.write_text(json.dumps(words, ensure_ascii=False, indent=1), encoding="utf-8")
 
     dur = duration_of(media)
     rep = {"media": str(media), "words_json": str(out), "duration": round(dur, 3), "text": res.get("text", "").strip()}
@@ -91,7 +92,7 @@ def main():
     else:
         rep.update(speech_start=None, speech_end=None, end_gap=None, gaps=[], words_per_minute=0, word_count=0)
     if a.script:
-        rep["script_check"] = diff_vs_script(" ".join(w["word"] for w in words), Path(a.script).read_text())
+        rep["script_check"] = diff_vs_script(" ".join(w["word"] for w in words), Path(a.script).read_text(encoding="utf-8"))
     print(json.dumps(rep, ensure_ascii=False, indent=2))
 
 

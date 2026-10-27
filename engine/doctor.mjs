@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Estudio de video · doctor (onboarding / diagnostics)
 //
-//   node engine/doctor.mjs [--json] [--fix] [--online] [--skip-claude] [--if-stale] [--no-write] [--help]
+//   node engine/doctor.mjs [--json] [--fix] [--online] [--skip-claude] [--if-stale] [--no-write] [--print-python] [--help]
 //
-// Zero npm dependencies (node builtins only). macOS only (Windows and Linux are not supported).
+// Zero npm dependencies (node builtins only). Supported: macOS and Windows 11 (NVIDIA GPU optional). Linux is not supported yet.
 // Code is in English; everything the user reads is in Spanish (Mexico).
 // Secrets are never printed, logged or stored: the ElevenLabs key is only reported as present/absent
 // and, with --online, validated against a free read-only endpoint (ok / invalid).
@@ -14,7 +14,9 @@ import os from "node:os";
 import path from "node:path";
 import readline from "node:readline";
 import { fileURLToPath } from "node:url";
+import { chromeCandidates as sharedChromeCandidates } from "./chrome-path.mjs";
 
+export const SUPPORTED_PLATFORMS = ["darwin", "win32"];
 export const MIN_NODE_MAJOR = 20;
 export const MIN_PY = [3, 10];
 export const MIN_DISK_GB = 10;
@@ -35,6 +37,12 @@ export const PY_OPTIONAL = [
   { mod: "rembg", pip: "rembg" },
   { mod: "mlx_whisper", pip: "mlx-whisper", appleSiliconOnly: true },
 ];
+// Windows (and other non-Mac) transcription and face detection. Kept out of PY_OPTIONAL: that list mirrors the Mac requirements.
+export const PY_OPTIONAL_NON_MAC = [
+  { mod: "faster_whisper", pip: "faster-whisper" },
+  { mod: "cv2", pip: "opencv-python-headless" },
+];
+export const FACE_MODEL_FILE = "face_detection_yunet_2023mar.onnx";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const SKILL_ROOT = path.resolve(here, "..");
@@ -154,6 +162,7 @@ export function makeContext(over = {}) {
 /** Same convention as scripts/paths.py data_dir(): per-OS user data folder for the skill. */
 export function dataDir(ctx) {
   const { P, env, homedir, platform } = ctx;
+  if (env.ESTUDIO_DATA_DIR) return env.ESTUDIO_DATA_DIR; // same override as engine/studio/pyenv.mjs
   if (platform === "darwin") return P.join(homedir, "Library", "Application Support", "estudio-video");
   if (platform === "win32") return P.join(env.LOCALAPPDATA || P.join(homedir, "AppData", "Local"), "estudio-video");
   return P.join(env.XDG_DATA_HOME || P.join(homedir, ".local", "share"), "estudio-video");
@@ -163,6 +172,11 @@ export function venvPython(ctx) {
   const { P, platform } = ctx;
   const v = P.join(dataDir(ctx), "venv");
   return platform === "win32" ? P.join(v, "Scripts", "python.exe") : P.join(v, "bin", "python");
+}
+
+/** OpenCV YuNet model used for face detection outside macOS; setup_python.py downloads it into <data_dir>/models. */
+export function faceModelPath(ctx) {
+  return ctx.P.join(dataDir(ctx), "models", FACE_MODEL_FILE);
 }
 
 export function defaultVideosDir(ctx) {
@@ -272,28 +286,9 @@ export function lookupElevenKey(ctx) {
 }
 export const elevenKeyFile = (ctx) => ctx.P.join(ctx.homedir, ".config", "reels-dibujados", ".env");
 
+/** Chrome candidates for this OS (list lives in engine/chrome-path.mjs, shared with the render). */
 export function chromeCandidates(ctx) {
-  const { P, env, homedir, platform } = ctx;
-  if (platform === "darwin") {
-    return [
-      { kind: "chrome", path: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" },
-      { kind: "chrome", path: P.join(homedir, "Applications", "Google Chrome.app", "Contents", "MacOS", "Google Chrome") },
-    ];
-  }
-  if (platform === "win32") {
-    const pf = env.ProgramFiles || "C:\\Program Files";
-    const pf86 = env["ProgramFiles(x86)"] || "C:\\Program Files (x86)";
-    const local = env.LOCALAPPDATA || P.join(homedir, "AppData", "Local");
-    return [
-      { kind: "chrome", path: P.join(pf, "Google", "Chrome", "Application", "chrome.exe") },
-      { kind: "chrome", path: P.join(pf86, "Google", "Chrome", "Application", "chrome.exe") },
-      { kind: "chrome", path: P.join(local, "Google", "Chrome", "Application", "chrome.exe") },
-    ];
-  }
-  return [
-    { kind: "chrome", path: "/usr/bin/google-chrome" },
-    { kind: "chrome", path: "/usr/bin/chromium" },
-  ];
+  return sharedChromeCandidates({ platform: ctx.platform, env: ctx.env, homedir: ctx.homedir });
 }
 
 /** Interpreter candidates in the order the engine uses: ESTUDIO_PY, data_dir()/venv, python3/python/py -3. */
@@ -346,9 +341,17 @@ for m in opt:
 print(json.dumps(out))
 `;
 
+/** Optional modules probed on this OS. Intel Macs stay mlx-only (no faster-whisper / OpenCV there). */
+export function optionalProbeMods(ctx) {
+  const mac = PY_OPTIONAL.filter((o) => !o.appleSiliconOnly || isAppleSilicon(ctx)).map((o) => o.mod);
+  if (ctx.platform === "darwin") return mac;
+  const common = PY_OPTIONAL.filter((o) => !o.appleSiliconOnly).map((o) => o.mod);
+  return ctx.platform === "win32" ? [...common, ...PY_OPTIONAL_NON_MAC.map((o) => o.mod)] : common;
+}
+
 export async function probePython(ctx, cand) {
-  const optMods = PY_OPTIONAL.filter((o) => !o.appleSiliconOnly || isAppleSilicon(ctx)).map((o) => o.mod);
-  const r = await ctx.exec(cand.cmd, [...cand.args, "-I", "-c", PY_PROBE, PY_REQUIRED.map((p) => p.mod).join(","), optMods.join(",")], { timeout: 60000 });
+  const optMods = optionalProbeMods(ctx);
+  const r = await ctx.exec(cand.cmd, [...cand.args, "-I", "-X", "utf8", "-c", PY_PROBE, PY_REQUIRED.map((p) => p.mod).join(","), optMods.join(",")], { timeout: 60000 });
   if (!r.ok) return { ...cand, works: false, reason: r.error || `código ${r.code}` };
   try {
     const j = JSON.parse(r.stdout.trim().split(/\r?\n/).pop());
@@ -427,6 +430,23 @@ const gb = (b) => (b / 1024 ** 3).toFixed(1);
 // Checks
 // ---------------------------------------------------------------------------------------------------------------
 
+/**
+ * NVIDIA GPU through nvidia-smi. Only Windows runs it (macOS and Linux never do). Memoized on ctx.nvidia, so runChecks and the
+ * individual checks share one probe and tests can preset it.
+ */
+export async function detectNvidia(ctx) {
+  if (ctx.nvidia !== undefined) return ctx.nvidia;
+  let res = { present: false, name: null, driver: null };
+  if (ctx.platform === "win32") {
+    const r = await ctx.exec("nvidia-smi", ["--query-gpu=name,driver_version", "--format=csv,noheader"], { timeout: 8000 });
+    const line = r.ok ? parseWhere(r.stdout)[0] ?? "" : "";
+    const [name, driver] = line.split(",").map((s) => s.trim());
+    if (name) res = { present: true, name, driver: driver || null };
+  }
+  ctx.nvidia = res;
+  return res;
+}
+
 export async function osLabel(ctx) {
   if (ctx.platform === "darwin") {
     const r = await ctx.exec("sw_vers", ["-productVersion"], { timeout: 5000 });
@@ -444,18 +464,18 @@ export async function checkSystem(ctx) {
   const out = [];
   const S = "sistema";
   const label = await osLabel(ctx);
-  const supported = ctx.platform === "darwin";
+  const supported = SUPPORTED_PLATFORMS.includes(ctx.platform);
   out.push(
     mk(ctx, {
       id: "sys.os", section: S, label: "Sistema operativo", required: true, status: supported ? "ok" : "fail",
       message: supported
         ? `${label}.`
-        : `No compatible por ahora: Estudio Video funciona solo en Mac (tu sistema: ${label}).`,
-      fix: { all: ["Usa una Mac para hacer videos con el estudio. Windows y Linux no son compatibles por ahora."] },
+        : `No compatible por ahora: Estudio Video funciona en Mac y en Windows 11 (tu sistema: ${label}).`,
+      fix: { all: ["Usa una Mac o una PC con Windows 11 para hacer videos con el estudio. Linux no es compatible por ahora."] },
       detail: { platform: ctx.platform, arch: ctx.arch, release: ctx.osRelease },
     }),
   );
-  if (supported) {
+  if (ctx.platform === "darwin") {
     const apple = isAppleSilicon(ctx);
     out.push(
       mk(ctx, {
@@ -507,6 +527,14 @@ export async function checkSystem(ctx) {
       detail: { folder: videos },
     }),
   );
+  if (ctx.platform === "win32") {
+    const nv = await detectNvidia(ctx);
+    out.push(
+      nv.present
+        ? mk(ctx, { id: "sys.gpu", section: S, label: "Tarjeta de video", status: "ok", message: `GPU NVIDIA detectada: ${nv.name}${nv.driver ? ` (driver ${nv.driver})` : ""}.`, detail: { gpu: nv.name, driver: nv.driver } })
+        : mk(ctx, { id: "sys.gpu", section: S, label: "Tarjeta de video", status: "skip", message: "No detecté una GPU NVIDIA: el render y la transcripción usan el procesador (CPU).", detail: { gpu: null } }),
+    );
+  }
   return out;
 }
 
@@ -575,6 +603,19 @@ export async function checkFfmpeg(ctx) {
           detail: { missingEncoders: missE, missingFilters: missF },
         }),
       );
+      if (ctx.platform === "win32" && (await detectNvidia(ctx)).present) {
+        const hasNvenc = encs.has("h264_nvenc");
+        out.push(
+          mk(ctx, {
+            id: "ffmpeg.nvenc", section: S, label: "ffmpeg: codificador NVIDIA (h264_nvenc)", status: hasNvenc ? "ok" : "warn",
+            message: hasNvenc
+              ? "ffmpeg trae h264_nvenc: el render por GPU está disponible (opcional, ver Python)."
+              : "Tienes GPU NVIDIA, pero este ffmpeg no trae h264_nvenc. El render sigue funcionando con el procesador.",
+            fix: { win: ["Instala la versión completa: winget install Gyan.FFmpeg (incluye h264_nvenc)."] },
+            detail: { present: hasNvenc },
+          }),
+        );
+      }
     }
   }
   const ffprobe = await findBinary(ctx, "ffprobe", { envVar: "FFPROBE" });
@@ -604,6 +645,56 @@ export function checkBrowser(ctx) {
     return mk(ctx, { id: "browser", section: S, label: "Navegador", required: true, status: "ok", message: `Google Chrome encontrado${staleNote}.`, detail: { kind: "chrome", path: chrome.path } });
   }
   return mk(ctx, { id: "browser", section: S, label: "Navegador", required: true, status: "fail", message: `No encontré Google Chrome${staleNote}. Lo necesito para dibujar los cuadros del video.`, fix });
+}
+
+/** Windows Python checks: faster-whisper (transcription), OpenCV + YuNet model (faces) and the optional NVIDIA acceleration. */
+export async function checkWinPython(ctx, c) {
+  const S = "python";
+  const opt = c.optional ?? {};
+  const out = [];
+  const fw = !!opt.faster_whisper;
+  out.push(
+    mk(ctx, {
+      id: "py.transcribe", section: S, label: "Transcripción de voz (faster-whisper)", status: fw ? "ok" : "warn",
+      message: fw
+        ? "Transcripción disponible (faster-whisper)."
+        : "faster-whisper no está instalado. Sin él no se pueden poner subtítulos automáticos ni cortar muletillas en Video tipo 2.",
+      fix: { all: ["Ejecuta: node engine/doctor.mjs --fix (instala faster-whisper en el entorno del skill)", "O a mano: python scripts/setup_python.py"] },
+      detail: { available: fw, backend: "faster_whisper" },
+    }),
+  );
+  const cv = !!opt.cv2;
+  const model = faceModelPath(ctx);
+  const hasModel = ctx.exists(model);
+  out.push(
+    mk(ctx, {
+      id: "py.faces", section: S, label: "Detección de caras (OpenCV YuNet)", status: cv && hasModel ? "ok" : "warn",
+      message: cv && hasModel
+        ? "Detección de caras disponible: los textos esquivan la cara."
+        : !cv
+          ? "OpenCV no está instalado (opcional). Sin él los textos se colocan en una caja centrada en vez de esquivar la cara."
+          : `Falta el modelo de detección de caras (${model}). Sin él los textos se colocan en una caja centrada.`,
+      fix: { all: ["Ejecuta: node engine/doctor.mjs --fix (instala OpenCV y descarga el modelo de caras)", "O a mano: python scripts/setup_python.py"] },
+      detail: { opencv: cv, model: hasModel },
+    }),
+  );
+  const nv = await detectNvidia(ctx);
+  if (nv.present) {
+    out.push(
+      mk(ctx, {
+        id: "py.gpu", section: S, label: "Aceleración por GPU NVIDIA (opcional)", status: "warn",
+        message: `GPU NVIDIA detectada (${nv.name}). La aceleración con CUDA es opcional; desde aquí no puedo comprobar si ya está activa.`,
+        fix: {
+          all: [
+            "Opcional, una sola vez: python scripts/setup_python.py --gpu (instala onnxruntime-gpu y las librerías CUDA de cuBLAS y cuDNN en el entorno del skill).",
+            "Para renderizar con la GPU define la variable de entorno ESTUDIO_VIDEO_ENCODER=h264_nvenc (sin ella se usa libx264 en el procesador).",
+          ],
+        },
+        detail: { gpu: nv.name },
+      }),
+    );
+  }
+  return out;
 }
 
 export async function checkPython(ctx) {
@@ -644,19 +735,23 @@ export async function checkPython(ctx) {
     }),
   );
   const opt = c.optional ?? {};
-  const apple = isAppleSilicon(ctx);
-  out.push(
-    mk(ctx, {
-      id: "py.transcribe", section: S, label: "Transcripción de voz (mlx_whisper)", status: apple && opt.mlx_whisper ? "ok" : "warn",
-      message: !apple
-        ? "La transcripción (mlx_whisper) necesita una Mac con Apple Silicon; en este Mac no está disponible. Sin ella no hay subtítulos automáticos ni corte de muletillas en Video tipo 2."
-        : opt.mlx_whisper
-          ? "Transcripción disponible (mlx_whisper)."
-          : "mlx_whisper no está instalado. Sin él no se pueden poner subtítulos automáticos ni cortar muletillas en Video tipo 2.",
-      fix: apple ? { all: ["Ejecuta: node engine/doctor.mjs --fix (instala mlx-whisper en el entorno del skill)", "O a mano: python3 scripts/setup_python.py"] } : { all: ["Usa una Mac con Apple Silicon para el Video tipo 2."] },
-      detail: { available: apple && !!opt.mlx_whisper, appleSilicon: apple },
-    }),
-  );
+  if (ctx.platform === "win32") {
+    out.push(...(await checkWinPython(ctx, c)));
+  } else {
+    const apple = isAppleSilicon(ctx);
+    out.push(
+      mk(ctx, {
+        id: "py.transcribe", section: S, label: "Transcripción de voz (mlx_whisper)", status: apple && opt.mlx_whisper ? "ok" : "warn",
+        message: !apple
+          ? "La transcripción (mlx_whisper) necesita una Mac con Apple Silicon; en este Mac no está disponible. Sin ella no hay subtítulos automáticos ni corte de muletillas en Video tipo 2."
+          : opt.mlx_whisper
+            ? "Transcripción disponible (mlx_whisper)."
+            : "mlx_whisper no está instalado. Sin él no se pueden poner subtítulos automáticos ni cortar muletillas en Video tipo 2.",
+        fix: apple ? { all: ["Ejecuta: node engine/doctor.mjs --fix (instala mlx-whisper en el entorno del skill)", "O a mano: python3 scripts/setup_python.py"] } : { all: ["Usa una Mac con Apple Silicon para el Video tipo 2."] },
+        detail: { available: apple && !!opt.mlx_whisper, appleSilicon: apple },
+      }),
+    );
+  }
   out.push(
     mk(ctx, {
       id: "py.rembg", section: S, label: "Quitar fondos (opcional)", status: opt.rembg ? "ok" : "warn",
@@ -670,8 +765,18 @@ export async function checkPython(ctx) {
 export async function checkOptionalTools(ctx, mcpServers) {
   const S = "opcionales";
   const out = [];
-  // earshot (Mac only, ~2.5 GB, not distributable)
-  if (ctx.platform === "darwin") {
+  // earshot (optional, ~2.5 GB, not distributable). Windows: <home>\.venv\Scripts\earshot.exe
+  if (ctx.platform === "win32") {
+    const home = ctx.env.EARSHOT_HOME ? ctx.env.EARSHOT_HOME : ctx.P.join(ctx.homedir, "tools", "earshot");
+    const has = ctx.exists(ctx.P.join(home, ".venv", "Scripts", "earshot.exe"));
+    out.push(
+      mk(ctx, {
+        id: "opt.earshot", section: S, label: "earshot (efectos de sonido avanzados)", status: has ? "ok" : "warn",
+        message: has ? "earshot instalado." : "earshot no está instalado (opcional). Sin él no se generan efectos de sonido a la medida ni la mezcla avanzada de música y efectos.",
+        fix: { all: ["Es una herramienta interna de Reda que no se distribuye con el skill; pregunta a tu contacto en Reda si la necesitas."] },
+      }),
+    );
+  } else if (ctx.platform === "darwin") {
     const home = ctx.env.EARSHOT_HOME ? ctx.env.EARSHOT_HOME : ctx.P.join(ctx.homedir, "tools", "earshot");
     const has = ctx.exists(ctx.P.join(home, ".venv", "bin", "earshot"));
     out.push(
@@ -694,11 +799,26 @@ export async function checkOptionalTools(ctx, mcpServers) {
         fix: { mac: ["En Terminal: xcode-select --install"] },
       }),
     );
+  } else if (ctx.platform === "win32") {
+    out.push(mk(ctx, { id: "opt.swift", section: S, label: "Swift (detección de caras)", status: "skip", message: "Solo existe para Mac; en Windows la detección de caras usa OpenCV (ver Python)." }));
   } else {
     out.push(mk(ctx, { id: "opt.swift", section: S, label: "Swift (detección de caras)", status: "skip", message: "Solo existe para Mac; en tu sistema los textos se colocan en una caja centrada." }));
   }
-  // audio-studio (local MCP)
-  if (!mcpServers) {
+  // Windows: audio-studio (local, MLX/Apple-only) does not exist; music comes from Eleven Music (connector or key).
+  if (ctx.platform === "win32") {
+    out.push(mk(ctx, { id: "opt.audio-studio", section: S, label: "audio-studio (música y efectos locales)", status: "skip", message: "audio-studio no está disponible en Windows (es local y solo corre en Mac con Apple Silicon)." }));
+    const connector = mcpServers ? findConnector(mcpServers, CONNECTORS.elevenlabs.re)?.status === "connected" : false;
+    const haveEleven = lookupElevenKey(ctx).present || connector;
+    out.push(
+      mk(ctx, {
+        id: "opt.music", section: S, label: "Música (Eleven Music)", status: haveEleven ? "ok" : "warn",
+        message: haveEleven
+          ? "Música disponible con Eleven Music (conector de ElevenLabs o tu llave)."
+          : "Sin conector ni llave de ElevenLabs no hay música de fondo generada. Sin ella el video sale sin música.",
+        fix: { all: ["Conecta ElevenLabs en claude.ai > Configuración > Conectores, o guarda tu llave (ver la sección Llaves y cuentas)."] },
+      }),
+    );
+  } else if (!mcpServers) {
     out.push(mk(ctx, { id: "opt.audio-studio", section: S, label: "audio-studio (música y efectos locales)", status: "skip", message: "No se revisó porque se omitió la revisión de Claude." }));
   } else {
     const a = mcpServers.find((s) => /audio-studio/i.test(s.name));
@@ -1113,14 +1233,14 @@ export function computeReadiness(checks) {
 // ---------------------------------------------------------------------------------------------------------------
 
 export async function runChecks(ctx, opts = {}) {
-  if (ctx.platform !== "darwin" && !opts.allPlatforms) {
+  if (!SUPPORTED_PLATFORMS.includes(ctx.platform) && !opts.allPlatforms) {
     const os = (await checkSystem(ctx)).slice(0, 1);
     const readiness = [
       { id: "tipo1", label: "Video tipo 1 (motion)" },
       { id: "tipo2", label: "Video tipo 2 (video real editado)" },
       { id: "tipo3", label: "Video tipo 3 (100 % IA)" },
       { id: "estudio", label: "Estudio (editor local)" },
-    ].map((r) => ({ ...r, ready: false, missing: ["sistema no compatible (solo Mac)"] }));
+    ].map((r) => ({ ...r, ready: false, missing: ["sistema no compatible por ahora"] }));
     return { version: 1, timestamp: new Date(ctx.now()).toISOString(), platform: ctx.platform, arch: ctx.arch, dataDir: dataDir(ctx), ok: false, allGreen: false, checks: os, readiness, python: null };
   }
   if (ctx.platform === "darwin" && ctx.hwArm64 === undefined) {
@@ -1246,16 +1366,21 @@ export function buildFixPlan(ctx, result, py) {
     plan.push({ id: "npm", title: "Instalar los componentes del motor de video (npm)", kind: "local", cmd: [win ? "npm.cmd" : "npm", [lock ? "ci" : "install"]], cwd: ctx.P.join(ctx.skillRoot, "engine") });
   }
   const apple = isAppleSilicon(ctx);
-  const needEnv = st("py.required") === "fail" || (st("py.version") === "fail" && base) || (apple && st("py.transcribe") === "warn") || st("py.rembg") === "warn";
+  const needEnv = st("py.required") === "fail" || (st("py.version") === "fail" && base) || (apple && st("py.transcribe") === "warn") || st("py.rembg") === "warn" || (win && (st("py.transcribe") === "warn" || st("py.faces") === "warn"));
   if (needEnv) {
     // ONE environment for the whole skill: scripts/setup_python.py creates paths.data_dir()/venv from scripts/requirements.txt (it resolves uv/pyenv shims itself)
     const setup = ctx.P.join(ctx.skillRoot, "scripts", "setup_python.py");
     const req = ctx.P.join(ctx.skillRoot, "scripts", "requirements.txt");
     if (!ctx.exists(setup) || !ctx.exists(req)) {
-      plan.push({ id: "pip-manual", title: "Instalar paquetes de Python", kind: "manual", note: `No encuentro scripts/setup_python.py. Instálalos a mano: ${venvPython(ctx)} -m pip install ${[...PY_REQUIRED, ...PY_OPTIONAL].map((p) => p.pip).join(" ")}` });
+      plan.push({ id: "pip-manual", title: "Instalar paquetes de Python", kind: "manual", note: `No encuentro scripts/setup_python.py. Instálalos a mano: ${venvPython(ctx)} -m pip install ${[...PY_REQUIRED, ...PY_OPTIONAL, ...(win ? PY_OPTIONAL_NON_MAC : [])].map((p) => p.pip).join(" ")}` });
     } else if (base) {
       plan.push({ id: "pyenv", title: "Crear o actualizar el entorno de Python del skill (descarga los paquetes)", kind: "local", cmd: [base.cmd, [...base.args, setup]] });
     }
+  }
+  // Opt-in (asked [y/N] like every step): CUDA packages for NVIDIA machines. Never part of the default environment.
+  if (base && st("py.gpu") === "warn") {
+    const setup = ctx.P.join(ctx.skillRoot, "scripts", "setup_python.py");
+    if (ctx.exists(setup)) plan.push({ id: "pyenv-gpu", title: "Activar la aceleración por GPU NVIDIA en el entorno de Python (opcional)", kind: "local", cmd: [base.cmd, [...base.args, setup, "--gpu"]] });
   }
   return plan;
 }
@@ -1282,7 +1407,9 @@ export async function runFix(ctx, result, io) {
       const tool = step.cmd[0];
       const have = await findBinary(ctx, tool, {});
       if (!have) {
-        io.print("  Para esto necesito Homebrew, que no está instalado. Instálalo desde https://brew.sh (copia el comando de esa página en Terminal) y vuelve a correr --fix.");
+        io.print(ctx.platform === "win32"
+          ? "  Para esto necesito winget (viene con Windows 11; si no aparece, instala \"Instalador de aplicaciones\" desde Microsoft Store) y vuelve a correr --fix."
+          : "  Para esto necesito Homebrew, que no está instalado. Instálalo desde https://brew.sh (copia el comando de esa página en Terminal) y vuelve a correr --fix.");
         io.print("");
         continue;
       }
@@ -1353,14 +1480,16 @@ Uso: node engine/doctor.mjs [opciones]
   --skip-claude   No revisa Claude ni los conectores.
   --if-stale      No hace nada si hubo un diagnóstico todo en verde hace menos de ${CACHE_DAYS} días.
   --no-write      No guarda doctor-last.json.
+  --print-python  Imprime la ruta del Python del entorno del skill (no revisa nada).
   --help          Muestra esta ayuda.
 
 Código de salida: 0 si todo lo indispensable está bien, 1 si falta algo.`;
 
 export function parseArgs(argv) {
-  const o = { json: false, fix: false, online: false, skipClaude: false, ifStale: false, noWrite: false, help: false, unknown: [] };
+  const o = { json: false, fix: false, online: false, skipClaude: false, ifStale: false, noWrite: false, printPython: false, help: false, unknown: [] };
   for (const a of argv) {
     if (a === "--json") o.json = true;
+    else if (a === "--print-python") o.printPython = true;
     else if (a === "--fix") o.fix = true;
     else if (a === "--online") o.online = true;
     else if (a === "--skip-claude") o.skipClaude = true;
@@ -1385,6 +1514,10 @@ export async function main(argv = process.argv.slice(2), ctx = makeContext()) {
   if (o.json && o.fix) {
     console.error("--fix pregunta cosas y no se puede combinar con --json.");
     return 2;
+  }
+  if (o.printPython) {
+    console.log(venvPython(ctx)); // one line, no checks: docs and scripts can call it
+    return 0;
   }
   if (o.ifStale) {
     const fresh = readFreshCache(ctx);

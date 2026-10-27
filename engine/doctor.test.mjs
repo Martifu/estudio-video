@@ -162,7 +162,7 @@ test("resolvePython on Windows falls through to `py -3`, runs it isolated (-I -c
   assert.equal(res.chosen.cmd, "py");
   assert.deepEqual(res.chosen.args, ["-3"]);
   const call = exec.calls.find((c) => c[0] === "py");
-  assert.deepEqual(call[1].slice(0, 3), ["-3", "-I", "-c"]);
+  assert.deepEqual(call[1].slice(0, 5), ["-3", "-I", "-X", "utf8", "-c"]);
   // mlx_whisper is only probed on Apple Silicon
   assert.ok(!call[1].at(-1).includes("mlx_whisper"));
 });
@@ -191,8 +191,8 @@ test("missing required packages -> fail with pip names; transcription and opencv
   const byId = Object.fromEntries(checks.map((c) => [c.id, c]));
   assert.equal(byId["py.required"].status, "fail");
   assert.deepEqual(byId["py.required"].detail.missing, ["Pillow", "scipy"]);
-  assert.equal(byId["py.transcribe"].status, "warn");
-  assert.equal(byId["py.opencv"], undefined); // no OpenCV/faster-whisper replacements: Mac tools only
+  assert.equal(byId["py.transcribe"].status, "warn"); // Windows: faster-whisper is the backend
+  assert.equal(byId["py.faces"].status, "warn"); // Windows: OpenCV YuNet faces (cv2 + model file)
   assert.ok(byId["py.required"].fix.some((l) => l.includes("--fix")));
 });
 
@@ -584,7 +584,7 @@ test("doctor's interpreter order mirrors engine/studio/pyenv.mjs (the one node-s
 
 test("doctor's Python package lists match scripts/requirements.txt", () => {
   const txt = fs.readFileSync(path.join(D.SKILL_ROOT, "scripts", "requirements.txt"), "utf8");
-  const reqs = txt.split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#")).map((l) => l.split(/[<>=]/)[0].toLowerCase());
+  const reqs = txt.split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#")).map((l) => l.split(/[<>=;\s[]/)[0].toLowerCase());
   for (const p of [...D.PY_REQUIRED, ...D.PY_OPTIONAL]) assert.ok(reqs.includes(p.pip.toLowerCase()), `${p.pip} is checked by the doctor but missing from requirements.txt`);
 });
 
@@ -635,17 +635,17 @@ test("runChecks on a mocked Windows machine produces serializable, secret-free J
   const res = await D.runChecks(ctx, { skipClaude: true, allPlatforms: true });
   const json = JSON.stringify(res);
   assert.ok(!json.includes(SECRET));
-  assert.deepEqual(res.checks.filter((c) => c.required && c.status === "fail").map((c) => c.id), ["sys.os"]); // only the unsupported-OS gate
+  assert.deepEqual(res.checks.filter((c) => c.required && c.status === "fail").map((c) => c.id), []); // Windows is supported now
   assert.equal(res.platform, "win32");
   assert.equal(res.allGreen, false); // higgsfield skipped
   const by = Object.fromEntries(res.readiness.map((r) => [r.id, r]));
-  assert.ok(by.tipo1.ready && by.estudio.ready && !by.tipo2.ready && !by.tipo3.ready); // no mlx_whisper outside Apple Silicon
+  assert.ok(by.tipo1.ready && by.estudio.ready && by.tipo2.ready && !by.tipo3.ready); // faster-whisper (no mlx) is the Windows transcription backend
   const report = D.formatReport(res);
   assert.match(report, /Diagnóstico de Estudio de video/);
   assert.match(report, /Listo para:/);
   assert.ok(!report.includes(SECRET));
-  // earshot / swift are skipped (not failed) on Windows
-  assert.equal(res.checks.find((c) => c.id === "opt.earshot").status, "skip");
+  // earshot is an optional warn on Windows too (its venv is not there); swift does not exist on Windows (skip)
+  assert.equal(res.checks.find((c) => c.id === "opt.earshot").status, "warn");
   assert.equal(res.checks.find((c) => c.id === "opt.swift").status, "skip");
 });
 
@@ -663,8 +663,8 @@ test("parseArgs", () => {
 });
 
 // ---------------------------------------------------------------------------------------------------- scope: macOS only
-test("Windows/Linux: first check is a required fail, nothing is ready, the rest is skipped", async () => {
-  for (const base of [WIN, { platform: "linux", arch: "x64", homedir: "/home/a", osRelease: "6.1" }]) {
+test("Linux: first check is a required fail, nothing is ready, the rest is skipped (Windows is no longer gated)", async () => {
+  for (const base of [{ platform: "linux", arch: "x64", homedir: "/home/a", osRelease: "6.1" }]) {
     const exec = fakeExec(() => { throw new Error("nothing else may run"); });
     const res = await D.runChecks(ctxFor(base, { exec }), {});
     assert.equal(res.ok, false);
@@ -673,7 +673,7 @@ test("Windows/Linux: first check is a required fail, nothing is ready, the rest 
     assert.equal(res.checks[0].id, "sys.os");
     assert.equal(res.checks[0].status, "fail");
     assert.match(res.checks[0].message, /No compatible por ahora/);
-    assert.match(res.checks[0].message, /solo en Mac/);
+    assert.match(res.checks[0].message, /Mac y en Windows 11/);
     assert.ok(res.readiness.every((r) => r.ready === false));
     assert.match(D.formatReport(res), /No compatible por ahora/);
   }
@@ -719,4 +719,177 @@ test("Codex: absent -> skip; present -> presence of reda/higgsfield from `codex 
   assert.equal(by["codex.higgsfield"].status, "warn");
   assert.ok(by["codex.higgsfield"].fix[0].includes("codex mcp login higgsfield"));
   assert.match(by["codex.reda"].message, /no puedo confirmar/);
+});
+
+// ---------------------------------------------------------------------------------------------------- Windows 11 (+ optional NVIDIA)
+const NVENC_LINE = " V....D h264_nvenc            NVIDIA NVENC H.264 encoder\n";
+const WIN_ROOT = "C:\\skills\\estudio-video";
+const WIN_MODEL = "C:\\Users\\Ana\\AppData\\Local\\estudio-video\\models\\face_detection_yunet_2023mar.onnx";
+const WIN_CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const WIN_PY_OK = () => PYOK([3, 12, 0], [], { faster_whisper: true, cv2: true, rembg: true });
+
+/** Windows machine: ffmpeg/where/nvidia-smi/py answered by the mock; `nvidia` is nvidia-smi stdout (null = not installed). */
+function winExec({ nvidia = null, encoders = ENCODERS, py = WIN_PY_OK() } = {}) {
+  return fakeExec((f, a) => {
+    if (f === "where") return { stdout: `C:\\bin\\${a[0]}.exe\r\n` };
+    if (f === "nvidia-smi") return nvidia === null ? null : { stdout: nvidia };
+    if (a[0] === "-version") return { stdout: "ffmpeg version 7.1\n" };
+    if (a.includes("-encoders")) return { stdout: encoders };
+    if (a.includes("-filters")) return { stdout: FILTERS };
+    if (f === "py") return py;
+    return null;
+  });
+}
+function winCtx({ exec, files = [], env = {} } = {}) {
+  const cfg = `${WIN_ROOT}\\engine\\studio\\config.json`;
+  return ctxFor(WIN, {
+    exec: exec ?? winExec(),
+    env,
+    files: [WIN_CHROME, "C:\\Users\\Ana\\Videos", `${WIN_ROOT}\\engine\\node_modules\\puppeteer-core\\package.json`, cfg, `${WIN_ROOT}\\brands`, "C:\\bin\\ffmpeg.exe", ...files],
+    texts: { [cfg]: JSON.stringify({ higgsfield: {}, elevenlabs: {} }) },
+    dirs: { [`${WIN_ROOT}\\brands`]: [] },
+  });
+}
+const byIdOf = (checks) => Object.fromEntries(checks.map((c) => [c.id, c]));
+
+test("Windows: faster-whisper + OpenCV + YuNet model present -> type 2 ready (no mlx_whisper needed)", async () => {
+  const res = await D.runChecks(winCtx({ files: [WIN_MODEL] }), { skipClaude: true });
+  const by = byIdOf(res.checks);
+  assert.equal(res.platform, "win32");
+  assert.equal(by["sys.os"].status, "ok");
+  assert.equal(by["py.transcribe"].status, "ok");
+  assert.match(by["py.transcribe"].message, /faster-whisper/);
+  assert.equal(by["py.faces"].status, "ok");
+  assert.equal(by["py.gpu"], undefined); // no NVIDIA card: no GPU opt-in offered
+  assert.equal(by["ffmpeg.nvenc"], undefined);
+  assert.equal(by["sys.gpu"].status, "skip");
+  const r = Object.fromEntries(res.readiness.map((x) => [x.id, x]));
+  assert.ok(r.tipo2.ready && r.estudio.ready);
+  assert.match(r.tipo1.missing.join(), /llave de ElevenLabs/); // type 1 still needs the voice key, as on Mac
+  assert.deepEqual(res.checks.filter((c) => c.required && c.status === "fail"), []);
+  assert.equal(res.python.interpreter, "py -3");
+});
+
+test("Windows: without the YuNet model, faces warn but type 2 stays ready (faces is optional, like swift on Mac)", async () => {
+  const res = await D.runChecks(winCtx({ files: [] }), { skipClaude: true });
+  const by = byIdOf(res.checks);
+  assert.equal(by["py.faces"].status, "warn");
+  assert.match(by["py.faces"].message, /modelo de detección de caras/);
+  assert.ok(Object.fromEntries(res.readiness.map((x) => [x.id, x])).tipo2.ready);
+});
+
+test("Windows: faster-whisper missing -> type 2 not ready, with the setup_python.py fix", async () => {
+  const res = await D.runChecks(winCtx({ files: [WIN_MODEL], exec: winExec({ py: PYOK([3, 12, 0], [], { cv2: true }) }) }), { skipClaude: true });
+  const by = byIdOf(res.checks);
+  assert.equal(by["py.transcribe"].status, "warn");
+  assert.ok(by["py.transcribe"].fix.some((l) => l.includes("setup_python.py")));
+  assert.equal(Object.fromEntries(res.readiness.map((x) => [x.id, x])).tipo2.ready, false);
+});
+
+test("Windows + NVIDIA: GPU reported with driver, opt-in GPU fix steps, h264_nvenc detected", async () => {
+  const exec = winExec({ nvidia: "NVIDIA GeForce RTX 4070, 552.22\r\n", encoders: ENCODERS + NVENC_LINE });
+  const res = await D.runChecks(winCtx({ exec, files: [WIN_MODEL] }), { skipClaude: true });
+  const by = byIdOf(res.checks);
+  assert.equal(by["sys.gpu"].status, "ok");
+  assert.match(by["sys.gpu"].message, /RTX 4070/);
+  assert.match(by["sys.gpu"].message, /552\.22/);
+  assert.equal(by["py.gpu"].status, "warn"); // opt-in: never silently installed
+  const fix = by["py.gpu"].fix.join("\n");
+  assert.match(fix, /setup_python\.py --gpu/);
+  assert.match(fix, /ESTUDIO_VIDEO_ENCODER=h264_nvenc/);
+  assert.equal(by["ffmpeg.nvenc"].status, "ok");
+  assert.equal(res.checks.filter((c) => c.required && c.status === "fail").length, 0);
+  assert.ok(Object.fromEntries(res.readiness.map((x) => [x.id, x])).tipo2.ready); // GPU is never required
+});
+
+test("Windows + NVIDIA but ffmpeg without h264_nvenc -> warn with the full-build fix", async () => {
+  const exec = winExec({ nvidia: "NVIDIA GeForce RTX 3060, 560.10\r\n", encoders: ENCODERS });
+  const by = byIdOf((await D.runChecks(winCtx({ exec, files: [WIN_MODEL] }), { skipClaude: true })).checks);
+  assert.equal(by["ffmpeg.nvenc"].status, "warn");
+  assert.ok(by["ffmpeg.nvenc"].fix.some((l) => l.includes("Gyan.FFmpeg")));
+});
+
+test("nvidia-smi is only probed on Windows: macOS never runs it", async () => {
+  const exec = fakeExec(() => null);
+  await D.runChecks(ctxFor(MAC, { exec }), { skipClaude: true });
+  assert.ok(!exec.calls.some((c) => c[0] === "nvidia-smi"));
+});
+
+test("NVIDIA GPU detection parses the nvidia-smi csv line and is memoized on the context", async () => {
+  const exec = winExec({ nvidia: "NVIDIA RTX A2000 Laptop GPU, 572.16\r\nNVIDIA second line, 1\r\n" });
+  const ctx = winCtx({ exec });
+  assert.deepEqual(await D.detectNvidia(ctx), { present: true, name: "NVIDIA RTX A2000 Laptop GPU", driver: "572.16" });
+  await D.detectNvidia(ctx);
+  assert.equal(exec.calls.filter((c) => c[0] === "nvidia-smi").length, 1);
+  assert.deepEqual(await D.detectNvidia(winCtx({ exec: winExec() })), { present: false, name: null, driver: null });
+});
+
+test("Windows fix plan: Python env for missing faces/transcription, GPU step only as opt-in when NVIDIA", async () => {
+  const files = [`${WIN_ROOT}\\scripts\\setup_python.py`, `${WIN_ROOT}\\scripts\\requirements.txt`];
+  const py = { firstVersionOk: { cmd: "py", args: ["-3"] } };
+  const base = [{ id: "py.version", status: "ok" }, { id: "py.required", status: "ok" }, { id: "py.faces", status: "warn" }, { id: "py.transcribe", status: "ok" }];
+  const plan = D.buildFixPlan(winCtx({ files }), { checks: base }, py);
+  assert.ok(plan.some((s) => s.id === "pyenv" && s.cmd[1].includes(`${WIN_ROOT}\\scripts\\setup_python.py`)));
+  assert.ok(!plan.some((s) => s.id === "pyenv-gpu"));
+  const gpu = D.buildFixPlan(winCtx({ files }), { checks: [...base, { id: "py.gpu", status: "warn" }] }, py);
+  const step = gpu.find((s) => s.id === "pyenv-gpu");
+  assert.ok(step);
+  assert.deepEqual(step.cmd[1].slice(0, 2), ["-3", `${WIN_ROOT}\\scripts\\setup_python.py`]);
+  assert.equal(step.cmd[1].at(-1), "--gpu");
+});
+
+test("--print-python prints one line with the skill venv python and runs no checks", async () => {
+  const exec = fakeExec(() => {
+    throw new Error("no checks may run");
+  });
+  const lines = [];
+  const log = console.log;
+  console.log = (...a) => lines.push(a.join(" "));
+  let code;
+  try {
+    code = await D.main(["--print-python"], ctxFor(WIN, { exec }));
+  } finally {
+    console.log = log;
+  }
+  assert.equal(code, 0);
+  assert.deepEqual(lines, ["C:\\Users\\Ana\\AppData\\Local\\estudio-video\\venv\\Scripts\\python.exe"]);
+  assert.equal(exec.calls.length, 0);
+});
+
+test("the venv path matches engine/studio/pyenv.mjs (same data dir rules; separators aside)", async () => {
+  const pyenv = await import("./studio/pyenv.mjs");
+  const norm = (p) => p.replace(/\\/g, "/");
+  assert.equal(norm(D.venvPython(ctxFor(WIN))), norm(pyenv.venvPython("win32", pyenv.dataDir(WIN_ENV, "win32", WIN.homedir))));
+  assert.equal(D.venvPython(ctxFor(MAC)), pyenv.venvPython("darwin", pyenv.dataDir({}, "darwin", "/Users/ana")));
+  // ESTUDIO_DATA_DIR overrides the data dir on every OS, as in pyenv.mjs
+  assert.equal(D.venvPython(ctxFor(WIN, { env: { ESTUDIO_DATA_DIR: "D:\\data" } })), "D:\\data\\venv\\Scripts\\python.exe");
+  assert.equal(D.dataDir(ctxFor(MAC, { env: { ESTUDIO_DATA_DIR: "/tmp/x" } })), "/tmp/x");
+});
+
+test("faces model lives under <data_dir>/models and the probe list is OS-aware", () => {
+  assert.equal(D.faceModelPath(ctxFor(WIN)), WIN_MODEL);
+  assert.deepEqual(D.optionalProbeMods(ctxFor(WIN)), ["rembg", "faster_whisper", "cv2"]);
+  assert.deepEqual(D.optionalProbeMods(ctxFor(MAC)), ["rembg", "mlx_whisper"]);
+  assert.deepEqual(D.optionalProbeMods(ctxFor({ ...MAC, arch: "x64" })), ["rembg"]); // Intel Mac stays mlx-only (no faster-whisper)
+});
+
+test("earshot on Windows checks <home>\\.venv\\Scripts\\earshot.exe; audio-studio is skipped and music is Eleven Music", async () => {
+  const earshot = "C:\\Users\\Ana\\tools\\earshot\\.venv\\Scripts\\earshot.exe";
+  const by = byIdOf(await D.checkOptionalTools(ctxFor(WIN, { files: [earshot] }), null));
+  assert.equal(by["opt.earshot"].status, "ok");
+  assert.equal(by["opt.audio-studio"].status, "skip");
+  assert.match(by["opt.audio-studio"].message, /no está disponible en Windows/);
+  assert.equal(by["opt.music"].status, "warn"); // no key, no connector
+  const withKey = byIdOf(await D.checkOptionalTools(ctxFor(WIN, { env: { ELEVENLABS_API_KEY: SECRET } }), null));
+  assert.equal(withKey["opt.music"].status, "ok");
+  assert.ok(!JSON.stringify(withKey).includes(SECRET));
+  const connected = byIdOf(await D.checkOptionalTools(ctxFor(WIN), [{ name: "elevenlabs", status: "connected", source: "claudeai" }]));
+  assert.equal(connected["opt.music"].status, "ok");
+});
+
+test("Windows: no Mac-only check is emitted (chip, Homebrew-style probes, swift binary)", async () => {
+  const res = await D.runChecks(winCtx({ files: [WIN_MODEL] }), { skipClaude: true });
+  const ids = res.checks.map((c) => c.id);
+  assert.ok(!ids.includes("sys.chip"));
+  assert.equal(byIdOf(res.checks)["opt.swift"].status, "skip");
 });

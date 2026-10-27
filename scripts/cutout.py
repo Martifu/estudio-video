@@ -3,7 +3,7 @@
 
   python -I cutout.py --in IMG --out-dir DIR [--model isnet-general-use] [--check-only ALPHA_PNG]
 
-Uses rembg (ONNX runtime, CPU). Model weights are downloaded once (free, GitHub releases) into paths.model_dir() (U2NET_HOME), a
+Uses rembg (ONNX runtime: CUDA when this onnxruntime build reports it, otherwise CPU). Model weights are downloaded once (free, GitHub releases) into paths.model_dir() (U2NET_HOME), a
 per-user data dir, so a fresh install needs network only for the first cutout.
 Model: `isnet-general-use` (IS-Net, ~170 MB): good on arbitrary objects (furniture, bottles, boxes), ~2-4 s per photo on a laptop CPU.
 `birefnet-general-lite` (~224 MB) gives finer edges but is several times slower on CPU; pick it with --model when edges matter more.
@@ -23,6 +23,22 @@ DEFAULT_MODEL = "isnet-general-use"
 MIN_COVER, MAX_COVER = 0.05, 0.95
 HOLE_MIN_FRAC = 0.003  # a transparent island must cover >= 0.3 % of the photo to count as a hole
 SOFT_EDGE_PX = 5.0
+
+
+def providers_for(available):
+    """ONNX Runtime providers for rembg, from the providers the installed onnxruntime reports: CUDA first when present (NVIDIA
+    build), CPU always last. On macOS (CPU build) this is ["CPUExecutionProvider"], as before."""
+    if "CUDAExecutionProvider" in available:
+        return ["CUDAExecutionProvider", "CPUExecutionProvider"]
+    return ["CPUExecutionProvider"]
+
+
+def onnx_providers():
+    try:
+        import onnxruntime as ort
+        return providers_for(ort.get_available_providers())
+    except Exception:
+        return ["CPUExecutionProvider"]
 
 
 def quality(alpha):
@@ -88,7 +104,7 @@ def run(path, out_dir, model):
         k = 2048 / max(im.size)
         im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
     try:
-        sess = new_session(model, providers=["CPUExecutionProvider"])
+        sess = new_session(model, providers=onnx_providers())
     except Exception as e:  # first run without network, unknown model...
         return fail(f"no se pudo cargar el modelo de recorte ({model}): {str(e).splitlines()[-1][:160]}. La primera vez necesita internet para bajarlo.")
     try:

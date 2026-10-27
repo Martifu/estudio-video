@@ -1,5 +1,5 @@
 """Post-process people bank: center-crop square, export <id>.jpg (512, q88) and <id>@256.jpg, build sheet.jpg.
-Run: ~/.local/share/reels-dibujados/venv/bin/python -I people_post.py [ids...]"""
+Run: <skill venv python> -I people_post.py [ids...]   (<skill venv python> = python3 scripts/paths.py --python)"""
 import json, os, sys
 from PIL import Image, ImageDraw
 D = os.path.expanduser("~/.claude/skills/estudio-video/assets/people")

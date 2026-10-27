@@ -24,4 +24,4 @@ Fondos claros, anti-slop, easing, duraciones, texto, hook, ritmo y sincronía: [
 - Personaje mascota: imagen de la marca o generada; nunca parecido a una persona real identificable.
 
 ## Otras referencias
-Reels V1–V5 de Modo : tipografía cinética, slam de palabras, music hole, crítica de earshot.
+Reels V1–V5 de Modo: tipografía cinética, slam de palabras, music hole, crítica de earshot.

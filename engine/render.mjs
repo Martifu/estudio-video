@@ -17,7 +17,8 @@
 //
 // <out> is "<comp-dir>/out". Audio: --audio <file>, else "<out>/mix.wav" if present. `v --no-audio` encodes the video alone (scripts/overlay.py
 // always does: the final mux supplies the audio, and a leftover mix.wav must never influence the encoded video length).
-// Env: CHROME (Chrome binary), FFMPEG, KEEP_FRAMES=1 (keep the JPEG frames).
+// Env: CHROME (Chrome binary; default: the first Chrome found for this OS), FFMPEG, KEEP_FRAMES=1 (keep the JPEG frames),
+// ESTUDIO_VIDEO_ENCODER=libx264 (default) | h264_nvenc (NVIDIA GPU encoder, Windows/Linux with an NVIDIA card).
 // Requires: puppeteer-core (engine/node_modules), Google Chrome, ffmpeg.
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
@@ -26,10 +27,12 @@ import { basename, dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
 import { createStaticHandler } from "./static-server.mjs";
+import { resolveChrome } from "./chrome-path.mjs";
+import { finalEncodeArgv, resolveEncoder } from "./encoder-args.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const FPS = 30;
-const CHROME = process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = resolveChrome();
 const MODES = ["v", "preview", "preview-v", "cover", "events", "qa", "mux"];
 
 // ---------- arguments ----------
@@ -169,31 +172,12 @@ if (mode === "qa") {
   const video = join(out, `${slug}-9x16.mp4`);
   const ffmpeg = process.env.FFMPEG ?? "ffmpeg";
   const hasAudio = !noAudio && existsSync(audio);
+  const enc = resolveEncoder(process.env.ESTUDIO_VIDEO_ENCODER);
+  if (enc.warning) console.warn(`aviso: ${enc.warning}`);
   execFileSync(
     ffmpeg,
-    [
-      "-y",
-      "-framerate", String(FPS),
-      "-i", join(frames, "%05d.jpg"),
-      ...(hasAudio ? ["-i", audio] : []),
-      "-c:v", "libx264",
-      "-preset", "slow",
-      "-crf", "19",
-      // Grain changes every frame; cap the rate so the file stays manageable for social platforms.
-      "-maxrate", "16M",
-      "-bufsize", "32M",
-      // JPEG frames are full range; social platforms expect limited (tv) range BT.709.
-      "-vf", "scale=in_range=pc:out_range=tv:out_color_matrix=bt709",
-      "-pix_fmt", "yuv420p",
-      "-color_range", "tv",
-      "-colorspace", "bt709",
-      "-color_primaries", "bt709",
-      "-color_trc", "bt709",
-      "-tune", "grain",
-      ...(hasAudio ? ["-c:a", "aac", "-b:a", "256k", "-shortest"] : []),
-      "-movflags", "+faststart",
-      video
-    ],
+    // libx264 (default) keeps the historical argv exactly; see encoder-args.test.mjs.
+    finalEncodeArgv({ fps: FPS, framesPattern: join(frames, "%05d.jpg"), audio: hasAudio ? audio : null, video, encoder: enc.encoder }),
     { stdio: "inherit" }
   );
   if (!process.env.KEEP_FRAMES) rmSync(frames, { recursive: true, force: true });

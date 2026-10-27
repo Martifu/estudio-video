@@ -5,17 +5,18 @@
 // PUT  /api/variants           -> {version, doc} writes <comp>/variants.json (doc:null deletes it); token + Origin; 409 / 422
 // POST /api/variants/render    -> {only?: ["01", ...]} runs scripts/variants.py (fixed argv; preflight first); token + Origin
 // POST /api/variants/export    -> rewrites <comp>/variants/names.csv from the manifest (variants.py --export)
-// POST /api/variants/open      -> opens <comp>/variants in Finder
+// POST /api/variants/open      -> opens <comp>/variants in the file manager
 // SSE "variants" events: {event:"start"|"variant"|"progress"|"done", code, status, frac, n, total}.
 //
 // On disk: <comp>/variants.json (the document), <comp>/.studio/variants/{manifest.json,base-build.json,logs/}, <comp>/variants/ (served:
 // <slug>.mp4, <slug>.jpg, <slug>-cta.jpg, <slug>-preview.mp4, grid.jpg, names.csv), sibling comps <RUN>/<comp>__var-<i><j>/ (editable).
 // scripts/variants.py is the side that guards the render and re-validates everything; validateDoc() here gives the editor fast feedback
 // (and is the same rules). Pure helpers are exported for engine/studio/test/variants.test.mjs.
-import { execFile, spawn } from "node:child_process";
+import { spawn, execFile } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { findPython, resolveExe } from "./pyenv.mjs";
+import { openPath } from "./platform.mjs";
 
 export const MAX_AXES = 2;
 export const MAX_COMBOS = 12;
@@ -212,16 +213,16 @@ export function registerVariants(ctx) {
 
   route("POST", "/api/variants/open", true, async (req, res) => {
     const b = (await readJson(req, 1024)) ?? {};
-    // With a code: open that variant's mp4 in QuickTime (the code must exist in the manifest). Without: the folder in Finder.
+    // With a code: open that variant's mp4 with the default video app (QuickTime on macOS). Without: the folder in the file manager.
     if (b.code != null) {
       const v = readJsonFile(manifestFile)?.variants?.find((x) => x.code === String(b.code) && x.status === "done");
       const file = v && join(outDir, v.file);
       if (!file || !insideDir(file, outDir) || !existsSync(file)) return json(res, 404, { error: "esa variante no tiene video" });
-      execFile("open", ["-a", "QuickTime Player", file], (err) => err && console.error("open failed:", err.message));
+      openPath(file, { app: "QuickTime Player" }).then((err) => err && console.error("open failed:", err));
       return json(res, 200, { opened: file });
     }
     mkdirSync(outDir, { recursive: true });
-    execFile("open", [outDir], (err) => err && console.error("open failed:", err.message));
+    openPath(outDir).then((err) => err && console.error("open failed:", err));
     json(res, 200, { opened: outDir });
   });
 }

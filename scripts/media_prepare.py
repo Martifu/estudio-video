@@ -18,6 +18,9 @@ import argparse, importlib.util, io, json, shutil, subprocess, sys
 from contextlib import redirect_stdout
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import encoding  # noqa: E402
+
 HERE = Path(__file__).resolve().parent
 MAX_VIDEO_S = 600
 MAX_PIXELS = 60_000_000
@@ -136,7 +139,7 @@ def image_clip(src, dst, dur=8.0):
         with Image.open(src) as im:
             ImageOps.exif_transpose(im).convert("RGB").save(tmp, "PNG")
         frames = int(round(dur * 30))
-        enc = ["-t", f"{dur}", "-r", "30", "-pix_fmt", "yuv420p", "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-an", "-movflags", "+faststart"]
+        enc = ["-t", f"{dur}", "-r", "30", "-pix_fmt", "yuv420p", *encoding.video_codec_args(), "-an", "-movflags", "+faststart"]
         cover = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920"
         # pre-scale 2x so the zoom does not shimmer, then ease from 1.0 to 1.08 over the clip, centred
         zoom = f"scale=2160:3840:force_original_aspect_ratio=increase,crop=2160:3840,zoompan=z='1+0.08*on/{frames}':d={frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30"
@@ -168,7 +171,7 @@ def prepare_clip(run, file, name=None):
     if side.exists():
         shutil.copyfile(side, fdir / "words.json")
     elif not (fdir / "words.json").exists():
-        (fdir / "words.json").write_text("[]")
+        (fdir / "words.json").write_text("[]", encoding="utf-8")
     return {"ok": True, "name": name, "n": n, "dur": round(dur, 4), "faces": {"source": faces["source"], "step": faces.get("step", 3), "samples": faces["samples"]}}
 
 

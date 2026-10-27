@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reda -> Estudio product importer. Merges a Reda project (its models, photos, amenities, remarketing pieces) into RUN/products.json.
 
-  "$HOME/Library/Application Support/estudio-video/venv/bin/python" -I scripts/reda_import.py INPUT.json --run RUN
+  <skill venv python> -I scripts/reda_import.py INPUT.json --run RUN   (<skill venv python> = python3 scripts/paths.py --python)
         [--models all|ID,ID] [--include remarketing,gallery,amenities,brochure] [--max-images N]
         [--audience frio,tibio,caliente] [--amenity-icons] [--cutout] [--dry-run]
 

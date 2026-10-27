@@ -1,7 +1,7 @@
 # Fase 9 · QA
 
 ## Habla (todos los tipos con voz)
-`$PY` = el Python del skill (`~/Library/Application Support/estudio-video/venv/bin/python`, se crea con `python3 SKILL/scripts/setup_python.py`; el doctor lo revisa). `qa_speech.py` y `mix.py` lo buscan solos aunque los llames con otro Python.
+`$PY` = el Python del skill: obtén su ruta con `node SKILL/engine/doctor.mjs --print-python` (Mac: `~/Library/Application Support/estudio-video/venv/bin/python`; Windows: `%LOCALAPPDATA%\estudio-video\venv\Scripts\python.exe`). Se crea con `python3 SKILL/scripts/setup_python.py` (Windows: `py -3 SKILL/scripts/setup_python.py`); el doctor lo revisa. `qa_speech.py` y `mix.py` lo buscan solos aunque los llames con otro Python.
 ```bash
 $PY SKILL/scripts/qa_speech.py RUN/out/clip.mp4 --script RUN/script_hook1.txt
 ```

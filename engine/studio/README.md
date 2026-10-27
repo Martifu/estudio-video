@@ -97,7 +97,7 @@ Archivos del comp que el editor escribe y `overlay.py` detecta al reconstruir (a
 | `GET /api/comments`, `POST /api/comment`, `POST /api/comment/resolve` | comentarios (`resolved` se guarda en `inbox.jsonl`) |
 | `GET /api/events` | SSE: `motion` y `doc` (cambió en disco por otro escritor), `comments`, `render` (`line`, `progress`, `done`), `extras` |
 | `POST /api/render`, `GET /api/render` | corre el pipeline fijo de `build.json` (sin argumentos del navegador) |
-| `POST /api/open-final` | `open -a "QuickTime Player" <comp>/out/<comp>-final.mp4` |
+| `POST /api/open-final` | abre `<comp>/out/<comp>-final.mp4` con el reproductor del sistema (Mac: QuickTime; Windows: `start`) |
 | `GET /api/extras`, `PUT /api/extras/state` | medios, versiones activas, audio, solicitudes, presupuesto |
 | `POST /api/estimate` | estimado de una acción (misma tabla que usa el servidor al registrar) |
 | `POST /api/request`, `POST /api/request/status` | encolar (requiere `confirmed: true`) / aprobar o cancelar |

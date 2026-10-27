@@ -490,7 +490,18 @@ export function transitionEvents(edl) {
 // node engine/edl.js plan <edl.json> <bin.json> [words-by-clip.json]
 //   bin.json = [{name,dur}] (omit edl.json with "-" for the identity EDL).  Prints {edl, duration, segs, audio, words, errors, warnings}.
 // node engine/edl.js remap-words <edl.json> <words-by-clip.json> [bin.json]   Prints the output-time words.
-if (typeof process !== "undefined" && process.argv?.[1] && import.meta.url === `file://${process.argv[1]}`) {
+// Entry-point check: a file URL built with pathToFileURL (correct on Windows: file:///C:/... and percent-encoded spaces) on the
+// realpath of argv[1]. Dynamic imports only: this module is also loaded by the browser (studio/client/review-rules.js).
+const isEntryPoint = typeof process !== "undefined" && process.argv?.[1] && await (async () => {
+  try {
+    const { pathToFileURL } = await import("node:url");
+    const { realpathSync } = await import("node:fs");
+    return import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href;
+  } catch {
+    return false;
+  }
+})();
+if (isEntryPoint) {
   const { readFileSync } = await import("node:fs");
   const [cmd, a, b, c] = process.argv.slice(2);
   const rd = (f) => JSON.parse(readFileSync(f, "utf8"));

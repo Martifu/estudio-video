@@ -1,5 +1,6 @@
-# Skill-managed venv (scripts/setup_python.py creates it in paths.data_dir()/venv). ONE environment for every script of the skill
-# (macOS, Apple Silicon): images, audio mix, speech QA, TTS, product cutouts.
+# Skill-managed venv (scripts/setup_python.py creates it in paths.data_dir()/venv) and ONE environment for every script of the
+# skill: images, audio mix, speech QA, TTS, product cutouts, face tracking. macOS (Apple Silicon) and Windows 11 / Linux.
+# Environment markers pick the platform-specific pieces; the NVIDIA build is a separate opt-in file (requirements-gpu.txt).
 pillow>=10.3
 requests>=2.31
 numpy>=1.26
@@ -11,6 +12,9 @@ rembg>=2.0.57
 # rembg imports these at runtime (kept explicit so a minimal install does not fail on first use)
 pooch
 scikit-image
-# speech transcription (Apple Silicon only; qa_speech.py, captions)
-mlx-whisper
+# speech transcription: mlx-whisper on Apple Silicon (qa_speech.py via whisper_backend.py), faster-whisper everywhere else
+mlx-whisper; sys_platform == "darwin" and platform_machine == "arm64"
+faster-whisper; sys_platform != "darwin" or platform_machine != "arm64"
+# face tracking on Windows/Linux (scripts/faces_yunet.py, OpenCV YuNet). macOS uses Apple Vision (scripts/faces.swift) instead.
+opencv-python-headless; sys_platform != "darwin"
 certifi

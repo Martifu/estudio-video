@@ -66,7 +66,7 @@ export function openRenderLog() {
   const row = h("div", { class: "row" });
   if (rstate.code === 0 && rstate.output) {
     card.append(h("p", { html: `Listo: <span class="mono">${esc(rstate.output)}</span>` }));
-    row.append(h("button", { onclick: () => api("POST", "/api/open-final", {}).catch((e) => toast(e.message)) }, "Abrir en QuickTime"));
+    row.append(h("button", { onclick: () => api("POST", "/api/open-final", {}).catch((e) => toast(e.message)) }, "Abrir video"));
   }
   row.append(h("button", { onclick: closeModal }, "Cerrar"));
   card.append(row);

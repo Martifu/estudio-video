@@ -1,8 +1,8 @@
-# Instalación paso a paso (Mac)
+# Instalación paso a paso (Mac y Windows)
 
 Guía para clientes de Reda que **no son técnicos**. Tiempo aproximado: 30 a 45 minutos la primera vez. Si te atoras en cualquier paso, escríbele a tu contacto en Reda con una captura de pantalla.
 
-**Compatibilidad:** Mac (se recomienda Apple Silicon: M1 o más nuevo; con Intel funciona casi todo, pero no la transcripción de voz del Video tipo 2). **Windows: no compatible por ahora.**
+**Compatibilidad:** Mac (se recomienda Apple Silicon: M1 o más nuevo; con Intel funciona casi todo, pero no la transcripción de voz del Video tipo 2) y **Windows 10/11** (mejor con tarjeta NVIDIA, pero funciona sin ella). Los pasos de abajo están escritos para Mac; si usas Windows, sigue también la sección **[En Windows](#en-windows)**.
 
 > Los nombres exactos de menús pueden cambiar un poco con las actualizaciones de las apps. Si algo no se ve igual, busca la opción parecida o pide ayuda.
 
@@ -107,6 +107,38 @@ Si no usas el conector de ElevenLabs, el estudio necesita tu llave para la voz:
 4. El asistente se detiene en cada decisión importante. **Antes de gastar créditos siempre te muestra el costo y espera tu permiso.**
 5. Tus videos quedan en la carpeta **Videos**, dentro de una carpeta con el nombre de tu marca.
 
+## En Windows
+
+Lo mismo que en Mac, con estas diferencias:
+
+**Programas** (el diagnóstico los instala con `winget` si respondes `y`; también puedes correrlos tú en **PowerShell**):
+
+| Programa | Comando |
+|---|---|
+| Git (Claude Code lo necesita) | `winget install Git.Git` |
+| Node.js | `winget install OpenJS.NodeJS.LTS` |
+| ffmpeg | `winget install Gyan.FFmpeg` |
+| Google Chrome | `winget install Google.Chrome` |
+| Python | `winget install Python.Python.3.12` |
+
+Después de instalar programas, cierra y vuelve a abrir la terminal.
+
+**Instalar el skill** (en PowerShell):
+
+```
+git clone https://github.com/Martifu/estudio-video.git "$env:USERPROFILE\.claude\skills\estudio-video"
+cd "$env:USERPROFILE\.claude\skills\estudio-video"
+node engine\doctor.mjs --fix
+```
+
+Para actualizarlo: `git -C "$env:USERPROFILE\.claude\skills\estudio-video" pull` y vuelve a correr `node engine\doctor.mjs --fix` (instala lo nuevo, si hay).
+
+**Tarjeta NVIDIA (opcional, más rápido):** si el diagnóstico detecta tu tarjeta, te ofrece `setup_python.py --gpu`. Con eso la transcripción de voz y «Quitar fondo» usan la tarjeta. Para exportar los videos con la tarjeta, pídele al asistente que use `ESTUDIO_VIDEO_ENCODER=h264_nvenc`. Sin tarjeta NVIDIA todo funciona igual, solo más lento.
+
+**Qué cambia por dentro** (no tienes que hacer nada): la transcripción usa faster-whisper en lugar de mlx-whisper, y la detección de caras usa OpenCV en lugar de Apple Vision (descarga un modelo chico la primera vez). Los datos del skill viven en `%LOCALAPPDATA%\estudio-video`. La llave de ElevenLabs va en `%USERPROFILE%\.config\reels-dibujados\.env`.
+
+**Lo único que no existe en Windows:** la música generada en tu propia computadora (audio-studio es solo de Mac). En Windows la música sale de **Eleven Music** (necesita el plan Creator de ElevenLabs) o de una pista que tú pongas. Los efectos de sonido incluidos funcionan igual.
+
 ## Problemas comunes
 
 | Síntoma | Qué hacer |
@@ -121,4 +153,4 @@ Si no usas el conector de ElevenLabs, el estudio necesita tu llave para la voz:
 ## Para quien distribuye el skill (no para clientes)
 
 - Paso 3: hoy se instala clonando el repo público github.com/Martifu/estudio-video (sin datos de personas de las marcas). Pendiente: plugin/marketplace de Reda.
-- Herramientas solo de Mac que usa el skill: `mlx_whisper` (Apple Silicon), detección de caras con Apple Vision (`faces.swift`), `earshot` (no distribuible) y `audio-studio`.
+- Por sistema: Mac usa `mlx_whisper` y Apple Vision (`faces.swift`); Windows usa faster-whisper y OpenCV YuNet (`faces_yunet.py`). `earshot` (opcional, MIT) corre en ambos; `audio-studio` es solo Mac (MLX).

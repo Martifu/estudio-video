@@ -5,7 +5,7 @@
 //
 // Serves the studio UI at http://127.0.0.1:<port>/ (loopback only) plus the comp and RUN files (confined to the RUN dir).
 // See engine/studio/README.md for the endpoints, the on-disk layout (<comp>/.studio/) and how to extend the element schema.
-import { spawn, execFile } from "node:child_process";
+import { spawn } from "node:child_process";
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { createServer } from "node:http";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, renameSync, rmSync, statSync, watch, writeFileSync } from "node:fs";
@@ -20,6 +20,7 @@ import { registerAssets, checkLogoDoc, checkCtaDoc } from "./assets.mjs";
 import { registerInsights } from "./insights.mjs";
 import { registerVariants } from "./variants.mjs";
 import { resolveExe } from "./pyenv.mjs";
+import { openPath, renderEnv as renderEnvFor } from "./platform.mjs";
 import { registerMedia } from "./media.mjs";
 import { registerProducts } from "./products.mjs";
 
@@ -117,7 +118,9 @@ const ctx = {
   SKILL, ENGINE, here, compDir, runDir, compName, studioDir, historyDir, motionFile, inboxFile,
   json, readJson, readBody, writeAtomic, insideDir, sha, stamp,
   broadcast: (event, data) => broadcast(event, data),
-  motionVersion: () => sha(readMotionRaw())
+  motionVersion: () => sha(readMotionRaw()),
+  // Env for render children (render.mjs, variants.py): CHROME resolved for this OS. Used by startRender and variants.
+  renderEnv: () => renderEnvFor()
 };
 
 // ---------- Server-Sent Events ----------
@@ -216,9 +219,11 @@ function validateArgv(args) {
     return insideDir(abs, SKILL) || insideDir(abs, runDir);
   };
   if (!insideDir(resolve(runDir, args[1]), SKILL)) return { error: "build.json: el script debe estar dentro del skill" };
+  // Windows paths may use backslashes; on macOS/Linux this is exactly the old "/" test.
+  const SEP = process.platform === "win32" ? /[\\/]/ : /\//;
   for (const a of args.slice(2)) {
-    if (a.startsWith("~") || ((a.includes("/") || a.startsWith(".")) && !a.startsWith("--") && !under(a))) return { error: `build.json: ruta fuera de skill/RUN (${a})` };
-    if (a.startsWith("--") && a.includes("=") && /[/~]/.test(a.split("=")[1] ?? "") && !under(a.split("=")[1])) return { error: `build.json: ruta fuera de skill/RUN (${a})` };
+    if (a.startsWith("~") || ((SEP.test(a) || a.startsWith(".")) && !a.startsWith("--") && !under(a))) return { error: `build.json: ruta fuera de skill/RUN (${a})` };
+    if (a.startsWith("--") && a.includes("=") && (/~/.test(a.split("=")[1] ?? "") || SEP.test(a.split("=")[1] ?? "")) && !under(a.split("=")[1])) return { error: `build.json: ruta fuera de skill/RUN (${a})` };
   }
   const flag = (name) => args[args.indexOf(name) + 1];
   if (args[1].endsWith("overlay.py")) {
@@ -491,7 +496,7 @@ route("POST", "/api/open-final", true, async (req, res) => {
   await readBody(req, 1024);
   const file = join(compDir, "out", `${compName}-final.mp4`);
   if (!existsSync(file)) return json(res, 404, { error: "no hay video final todavía" });
-  execFile("open", ["-a", "QuickTime Player", file], (err) => err && console.error("open failed:", err.message));
+  openPath(file, { app: "QuickTime Player" }).then((err) => err && console.error("open failed:", err));
   json(res, 200, { opened: file });
 });
 
@@ -551,6 +556,6 @@ server.listen(port, "127.0.0.1", () => {
   const url = `http://127.0.0.1:${boundPort}/`;
   console.log(`Estudio · ${basename(runDir)}/${compName}${upgraded ? " (index.html actualizado con window.setMotion; copia en .studio/index.pre-studio.html)" : ""}`);
   console.log(url);
-  if (!noOpen) execFile("open", ["-a", "Google Chrome", url], (err) => err && console.error("could not open Chrome:", err.message));
+  if (!noOpen) openPath(url, { app: "Google Chrome" }).then((err) => err && console.error("could not open Chrome:", err));
 });
 for (const sig of ["SIGINT", "SIGTERM"]) process.on(sig, () => process.exit(0));

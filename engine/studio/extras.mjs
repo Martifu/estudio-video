@@ -8,7 +8,7 @@
 // The server never calls a paid API: paid/MCP work is only queued as `approved` requests for the assistant (see README.md).
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, watch } from "node:fs";
 import { randomBytes } from "node:crypto";
-import { basename, dirname, extname, join, relative, resolve } from "node:path";
+import { basename, dirname, extname, join, relative, resolve, sep } from "node:path";
 
 const AUDIO_EXT = new Set([".wav", ".mp3", ".m4a", ".flac", ".ogg"]);
 const STATUSES = ["pending", "approved", "running", "done", "failed", "cancelled"];
@@ -178,9 +178,9 @@ export function registerExtras(ctx) {
       const p = resolve(dirname(mapPath), f);
       if (!existsSync(p) || !allowedPath(p)) return null;
       const rs = relative(runDir, p);
-      if (!rs.startsWith("..")) return "/" + rs.split("/").map(encodeURIComponent).join("/");
+      if (!rs.startsWith("..")) return "/" + rs.split(sep).map(encodeURIComponent).join("/");
       const sk = relative(join(SKILL, "assets"), p);
-      return sk.startsWith("..") ? null : "/_skill/assets/" + sk.split("/").map(encodeURIComponent).join("/");
+      return sk.startsWith("..") ? null : "/_skill/assets/" + sk.split(sep).map(encodeURIComponent).join("/");
     };
     const kinds = {};
     for (const [k, spec] of Object.entries(map.kinds ?? {})) {
@@ -192,14 +192,14 @@ export function registerExtras(ctx) {
   }
   const skillUrl = (p) => {
     const sk = relative(join(SKILL, "assets"), abs(p));
-    return sk.startsWith("..") ? null : "/_skill/assets/" + sk.split("/").map(encodeURIComponent).join("/");
+    return sk.startsWith("..") ? null : "/_skill/assets/" + sk.split(sep).map(encodeURIComponent).join("/");
   };
 
   // ---------- routes ----------
   route("GET", "/api/extras", false, (req, res) => {
     const entries = mediaEntries().map((e) => {
       const rel = e.path ? relative(runDir, abs(e.path)) : "..";
-      return { ...e, url: e.invalid ? null : rel.startsWith("..") ? skillUrl(e.path) : "/" + rel.split("/").map(encodeURIComponent).join("/") };
+      return { ...e, url: e.invalid ? null : rel.startsWith("..") ? skillUrl(e.path) : "/" + rel.split(sep).map(encodeURIComponent).join("/") };
     });
     const st = readState();
     json(res, 200, {

@@ -71,7 +71,7 @@ export function registerAssets(ctx) {
     const py = await findPython();
     if (!py) return { fatal: "No hay un Python con Pillow para validar imágenes (pip install pillow, o define ESTUDIO_PY)." };
     return new Promise((res) => {
-      execFile(py, ["-I", validator, ...args], { timeout: 60000, maxBuffer: 4 * 1024 * 1024 }, (err, stdout, stderr) => {
+      execFile(py, ["-I", "-X", "utf8", validator, ...args], { timeout: 60000, maxBuffer: 4 * 1024 * 1024 }, (err, stdout, stderr) => {
         try {
           res({ out: JSON.parse(stdout) });
         } catch {

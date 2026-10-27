@@ -1,6 +1,6 @@
 """Tests for the --sfx-doc path of scripts/mix.py (mirror of engine/sfx-doc.js mergeSfx).
 Run with a python that has numpy/soundfile/librosa/scipy (the earshot venv):
-  ~/tools/earshot/.venv/bin/python -m unittest scripts/test_mix_sfx_doc.py
+  <earshot venv python> -m unittest scripts/test_mix_sfx_doc.py   (~/tools/earshot/.venv; Scripts/python.exe on Windows)
 """
 import importlib.util, json, subprocess, sys, tempfile, unittest
 from pathlib import Path

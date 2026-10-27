@@ -1,5 +1,5 @@
 """Tests for scripts/media_prepare.py. Needs Pillow + ffmpeg:
-  ~/.local/share/reels-dibujados/venv/bin/python -m unittest scripts/test_media_prepare.py
+  <skill venv python> -m unittest discover -s scripts -p test_media_prepare.py   (<skill venv python> = python3 scripts/paths.py --python)
 """
 import importlib.util, io, json, subprocess, tempfile, unittest
 from contextlib import redirect_stdout
@@ -75,7 +75,7 @@ class MediaPrepare(unittest.TestCase):
         self.assertEqual(len(list((run / "footage" / "imgclip-test").glob("*.jpg"))), 30)
         self.assertTrue((run / "footage" / "imgclip-test" / "audio.wav").exists())
         self.assertEqual((run / "footage" / "imgclip-test" / "words.json").read_text(), "[]")
-        self.assertIn(c["faces"]["source"], ("default", "vision"))
+        self.assertIn(c["faces"]["source"], ("default", "vision", "yunet"))
         # the stamp matches what `overlay.py --reuse-footage` computes: a second extract with reuse=True is a no-op
         ov = mp.load_overlay()
         buf = io.StringIO()

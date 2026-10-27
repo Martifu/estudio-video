@@ -24,6 +24,9 @@ import sys
 import time
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import encoding  # noqa: E402
+
 SKILL = Path(__file__).resolve().parent.parent
 DOCS = ("motion.json", "captions.json", "zones.json", "logo.json", "cta.json", "edl.json")
 MAX_AXES, MAX_COMBOS, MAX_OPTIONS, MAX_TEXT = 2, 12, 4, 120
@@ -190,7 +193,7 @@ def grab_frame(src, t, dst, width=540):
 
 
 def make_preview(src, dst, start=0.0, secs=3.0):
-    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{max(start, 0):.3f}", "-i", str(src), "-t", str(secs), "-vf", "scale=360:-2", "-an", "-c:v", "libx264", "-crf", "30", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(dst)], capture_output=True, text=True)
+    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{max(start, 0):.3f}", "-i", str(src), "-t", str(secs), "-vf", "scale=360:-2", "-an", *encoding.video_codec_args(preview=True), "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(dst)], capture_output=True, text=True)
     if r.returncode:
         raise VariantError(f"preview: {r.stderr.strip()[-200:]}")
 
@@ -221,7 +224,9 @@ def make_grid(entries, out_dir, out_file):
     sheet = Image.new("RGB", (cols * cell_w + 8, rows * (fh + label_h + 8) + 8), (24, 24, 24))
     d = ImageDraw.Draw(sheet)
     font = None
-    for cand in ("/System/Library/Fonts/Helvetica.ttc", "/System/Library/Fonts/SFNS.ttf", "/Library/Fonts/Arial.ttf"):
+    win_fonts = Path(os.environ.get("WINDIR", "C:/Windows")) / "Fonts"
+    for cand in ("/System/Library/Fonts/Helvetica.ttc", "/System/Library/Fonts/SFNS.ttf", "/Library/Fonts/Arial.ttf",
+                 str(win_fonts / "arialbd.ttf"), str(win_fonts / "segoeuib.ttf")):
         try:
             font = ImageFont.truetype(cand, 15)
             break

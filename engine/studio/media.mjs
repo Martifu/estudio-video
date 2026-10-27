@@ -72,9 +72,9 @@ export function registerMedia(ctx) {
   async function runPy(args, timeout = 120000, needPillow = false) {
     const found = await findPy(["PIL"]);
     if (needPillow && !found) return { ok: false, fatal: true, error: "No hay un Python con Pillow para revisar imágenes (pip install pillow, o define ESTUDIO_PY)." };
-    const py = found ?? "python3";
+    const py = found ?? (process.platform === "win32" ? "python" : "python3");
     return new Promise((res) => {
-      execFile(py, ["-I", prep, ...args], { timeout, maxBuffer: 16 * MB }, (err, stdout, stderr) => {
+      execFile(py, ["-I", "-X", "utf8", prep, ...args], { timeout, maxBuffer: 16 * MB }, (err, stdout, stderr) => {
         try {
           res(JSON.parse(stdout));
         } catch {

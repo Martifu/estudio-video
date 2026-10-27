@@ -179,7 +179,7 @@ function card(v) {
   let pv = null;
   thumb.onmouseenter = () => { pv = h("video", { src: url(v.preview), muted: true, autoplay: true, loop: true, playsinline: true }); thumb.append(pv); };
   thumb.onmouseleave = () => { pv?.remove(); pv = null; };
-  return h("div", { class: "vr-card" }, thumb, head, label, h("div", { class: "btnrow" }, h("button", { class: "small", onclick: () => api("POST", "/api/variants/open", { code: v.code }).catch((e) => toast(e.data?.error ?? e.message)), title: "Abrir este video en QuickTime" }, "Ver"), h("button", { class: "small", onclick: () => start([v.code]), title: "Volver a renderizar solo esta" }, "Rehacer")));
+  return h("div", { class: "vr-card" }, thumb, head, label, h("div", { class: "btnrow" }, h("button", { class: "small", onclick: () => api("POST", "/api/variants/open", { code: v.code }).catch((e) => toast(e.data?.error ?? e.message)), title: "Abrir este video en tu reproductor" }, "Ver"), h("button", { class: "small", onclick: () => start([v.code]), title: "Volver a renderizar solo esta" }, "Rehacer")));
 }
 async function exportNames() {
   try {
